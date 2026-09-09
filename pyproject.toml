@@ -1,0 +1,11 @@
+[project]
+name = "blog"
+version = "0.1.0"
+description = "Minimal static site generator for a flat Obsidian folder"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "jinja2>=3.1",
+    "markdown>=3.6",
+    "pyyaml>=6.0",
+]

@@ -1,0 +1,41 @@
+body {
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  max-width: 42rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: #222;
+}
+
+a { color: #0066cc; }
+
+h1 { line-height: 1.2; }
+
+.dates {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+}
+.dates time + time::before { content: " \00b7 "; }
+
+.post-list { list-style: none; padding: 0; }
+.post-list li { margin: 1rem 0; }
+
+.back { font-size: 0.85rem; }
+
+img, video { max-width: 100%; height: auto; }
+
+pre {
+  background: #f4f4f4;
+  padding: 1rem;
+  overflow-x: auto;
+}
+code { background: #f4f4f4; padding: 0.1em 0.3em; }
+pre code { background: none; padding: 0; }
+
+blockquote {
+  margin-left: 0;
+  padding-left: 1rem;
+  border-left: 3px solid #ddd;
+  color: #555;
+}

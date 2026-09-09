@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <p class="back"><a href="index.html">&larr; all posts</a></p>
+    <article>
+      <h1>{{ title }}</h1>
+      {% if created or updated %}
+      <p class="dates">
+        {% if created %}<time>created {{ created }}</time>{% endif %}
+        {% if updated %}<time>updated {{ updated }}</time>{% endif %}
+      </p>
+      {% endif %}
+      {{ content|safe }}
+    </article>
+  </main>
+</body>
+</html>

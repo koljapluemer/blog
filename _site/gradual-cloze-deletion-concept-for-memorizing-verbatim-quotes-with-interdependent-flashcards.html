@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gradual cloze deletion concept for memorizing verbatim quotes with interdependent flashcards</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <p class="back"><a href="index.html">&larr; all posts</a></p>
+    <article>
+      <h1>gradual cloze deletion concept for memorizing verbatim quotes with interdependent flashcards</h1>
+      
+      <p class="dates">
+        <time>created 2026-01-14</time>
+        <time>updated 2026-09-09</time>
+      </p>
+      
+      <h2 id="problem">Problem</h2>
+<p>How can we elegantly memorize a quote like:</p>
+<blockquote>
+<p>Because the sunset, like survival, exists only on the verge of its own disappearing. To be gorgeous, you must first be seen, but to be seen allows you to be hunted.</p>
+</blockquote>
+<p>— Ocean Vuong</p>
+<h2 id="solution-concept">Solution Concept</h2>
+<ol>
+<li><em>Spaced Repetition</em> is probably great to learn how to remember quotes (<em>memoria verborum</em>)</li>
+<li>However, memorizing a whole quote "in one go" is hard verging on impossible</li>
+<li>To solve this, we can split the memorization process into parts; we will memorize the quote from back to front (<em>back-chaining</em>, concept from <em>Fluent Forever</em>), using <em>cloze deletion</em> such as:<ul>
+<li>"Complete the missing part: <em>Because the sunset ＿＿＿＿</em>"</li>
+</ul>
+</li>
+<li>However, for that, we need multiple spaced repetition flashcards per quote to memorize, and need to learn them in a specific order (this is tedious to author, and the ordering is <a href="https://forums.ankiweb.net/t/is-it-possible-to-link-cards/13536">not supported by traditional software such as Anki</a>)</li>
+<li>So we design our own webapp supporting this use case...</li>
+</ol>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="cms.png" alt="A special authoring wizard allows generating a set of staggered flashcards with increasing difficulty.">
+<em>A special authoring wizard allows to quickly generate a set of staggered flashcards with increasing difficulty.</em></p>
+<p><img src="easier.png" alt="Flashcards are practiced with a classic reveal-score flow.">
+<em>Flashcards are practiced with a classic reveal-score flow.</em></p>
+<p><img src="harder.png" alt="Harder flashcards only appear once their prerequisites are practiced.">
+<em>Harder flashcards will not come up in practice unless all their prerequisite flashcards are practiced (meaning they came up at least once and are currently not <code>due</code> according to the <a href="https://github.com/open-spaced-repetition/ts-fsrs">ts-fsrs</a> algorithm).</em></p>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://github.com/koljapluemer/karten">Repository</a></li>
+<li><strong><a href="https://sams-karten.netlify.app">Webapp</a></strong></li>
+</ul>
+    </article>
+  </main>
+</body>
+</html>
