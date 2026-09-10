@@ -331,9 +331,10 @@ def main() -> int:
     for out_name, src in renderer.used_media.items():
         shutil.copy2(src, out_dir / out_name)
 
-    styles = ROOT / "styles.css"
-    if styles.exists():
-        shutil.copy2(styles, out_dir / "styles.css")
+    for name in ("styles.css", "favicon.ico"):
+        asset = ROOT / name
+        if asset.exists():
+            shutil.copy2(asset, out_dir / name)
 
     shown = os.path.relpath(out_dir)
     print(
