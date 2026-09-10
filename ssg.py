@@ -244,6 +244,10 @@ def main() -> int:
         content = md.convert(renderer.preprocess(body))
         created = parse_date(meta.get("created"))
         updated = parse_date(meta.get("updated"))
+        # Thumbnail: explicit `cover` front-matter, else the first embedded image.
+        cover = meta.get("cover")
+        first_img = re.search(r'<img\b[^>]*\bsrc="([^"]+)"', content)
+        thumb = cover or (first_img.group(1) if first_img else None)
         posts.append(
             {
                 "title": path.stem,  # filename verbatim (minus .md)
@@ -251,6 +255,7 @@ def main() -> int:
                 "created": created.isoformat() if created else None,
                 "updated": updated.isoformat() if updated else None,
                 "content": content,
+                "thumb": thumb,
                 "_created": created,
             }
         )

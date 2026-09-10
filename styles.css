@@ -11,6 +11,11 @@ a {
   color: #222;
   text-decoration-color: #7a29e9;
   text-decoration-thickness: 2px;
+  text-decoration-style: dotted;
+}
+
+a:hover {
+  text-decoration-style: solid;
 }
 
 h1 {
@@ -30,7 +35,23 @@ h1 {
 }
 
 .post-list li {
+  display: grid;
+  grid-template-columns: 3.25rem 1fr;
+  align-items: center;
+  gap: 1rem;
   margin: 1rem 0;
+}
+
+.post-list li > a {
+  grid-column: 2;
+}
+
+.post-list .thumb {
+  grid-column: 1;
+  width: 3.25rem;
+  height: 3.25rem;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 .back {

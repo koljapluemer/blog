@@ -12,6 +12,7 @@
     <ul class="post-list">
       {% for post in posts %}
       <li>
+        {% if post.thumb %}<img class="thumb" src="{{ post.thumb }}" alt="" loading="lazy">{% endif %}
         <a style="font-size:1.2em" href="{{ post.url }}">{{ post.title }}</a>
       </li>
       {% endfor %}
