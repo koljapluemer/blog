@@ -41,8 +41,15 @@ flat (no subfolders); every `*.md` file in it becomes a post.
   become `<img>` / `<video>` / `<audio>` depending on extension. `alt` is the
   bracket text. Only media actually embedded somewhere is copied into `_site/`;
   `http(s)`/`data:` URLs are passed through untouched.
+- **Index thumbnails.** Each post with an image gets a small square WebP
+  thumbnail (`<stem>-thumb.webp`, 156&nbsp;px, generated with Pillow) shown
+  next to its link. The source is the `cover` front-matter value if set,
+  otherwise the first embedded image; SVGs and anything Pillow can't read are
+  linked at full size instead. Posts with no image just leave the slot empty.
 
 ## Templates
 
-`index.jinja` (gets `posts`) and `post.jinja` (gets `title`, `created`,
-`updated`, `content`) are plain Jinja2. `styles.css` is copied to `_site/` as-is.
+`index.jinja` (gets `posts`, each with `title`, `url`, `created`, `updated` and
+`thumb` — the thumbnail filename or `None`) and `post.jinja` (gets `title`,
+`created`, `updated`, `content`) are plain Jinja2. `styles.css` is copied to
+`_site/` as-is.

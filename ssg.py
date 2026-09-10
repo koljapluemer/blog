@@ -29,6 +29,7 @@ from pathlib import Path
 import markdown
 import yaml
 from jinja2 import Environment, FileSystemLoader
+from PIL import Image, ImageOps
 
 ROOT = Path(__file__).parent
 CONFIG_PATH = ROOT / "config.json"
@@ -36,6 +37,11 @@ CONFIG_PATH = ROOT / "config.json"
 IMG_EXT = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".avif", ".bmp", ".apng"}
 VIDEO_EXT = {".mp4", ".webm", ".mov", ".m4v", ".ogv"}
 AUDIO_EXT = {".mp3", ".wav", ".ogg", ".m4a", ".flac", ".aac", ".opus"}
+
+# Index thumbnails are shown at 3.25rem (~52px); 3x covers the densest phone
+# screens. A small square WebP keeps the index cheap even with hundreds of
+# image posts, since the browser never downloads the full-size embed for it.
+THUMB_PX = 156
 
 # Matches both the embed form (leading "!") and the plain wikilink form.
 WIKILINK_RE = re.compile(r"(!?)\[\[([^\]\n]+)\]\]")
@@ -59,6 +65,31 @@ def media_out_name(filename: str) -> str:
     """Output filename for a media asset: slugified stem + original suffix."""
     p = Path(filename)
     return slugify(p.stem) + p.suffix.lower()
+
+
+def make_thumb(src: Path, out_dir: Path) -> str | None:
+    """Write a small square WebP thumbnail of ``src`` into ``out_dir``.
+
+    Returns the output filename, or ``None`` when the image can't be rasterised
+    (SVG, or an unreadable/unsupported file) so the caller can fall back to
+    linking the original.
+    """
+    if src.suffix.lower() == ".svg":
+        return None
+    out_name = slugify(src.stem) + "-thumb.webp"
+    try:
+        with Image.open(src) as im:
+            im = ImageOps.exif_transpose(im)
+            has_alpha = im.mode in ("RGBA", "LA") or (
+                im.mode == "P" and "transparency" in im.info
+            )
+            im = im.convert("RGBA" if has_alpha else "RGB")
+            im = ImageOps.fit(im, (THUMB_PX, THUMB_PX), method=Image.LANCZOS)
+            im.save(out_dir / out_name, "WEBP", quality=80, method=6)
+    except Exception as exc:  # noqa: BLE001 - any decode failure -> caller falls back
+        print(f"warning: thumbnail for {src.name} failed ({exc})", file=sys.stderr)
+        return None
+    return out_name
 
 
 def resolve_path(value: str) -> Path:
@@ -244,10 +275,17 @@ def main() -> int:
         content = md.convert(renderer.preprocess(body))
         created = parse_date(meta.get("created"))
         updated = parse_date(meta.get("updated"))
-        # Thumbnail: explicit `cover` front-matter, else the first embedded image.
+        # Thumbnail source: explicit `cover` front-matter, else the first
+        # embedded image. Kept as a source path here; scaled down after the
+        # output dir is cleaned (see make_thumb).
         cover = meta.get("cover")
-        first_img = re.search(r'<img\b[^>]*\bsrc="([^"]+)"', content)
-        thumb = cover or (first_img.group(1) if first_img else None)
+        if cover:
+            thumb_src = renderer._find_media(str(cover))
+            if thumb_src is None:
+                renderer.missing.append(f"cover: {cover}")
+        else:
+            m = re.search(r'<img\b[^>]*\bsrc="([^"]+)"', content)
+            thumb_src = renderer.used_media.get(m.group(1)) if m else None
         posts.append(
             {
                 "title": path.stem,  # filename verbatim (minus .md)
@@ -255,7 +293,8 @@ def main() -> int:
                 "created": created.isoformat() if created else None,
                 "updated": updated.isoformat() if updated else None,
                 "content": content,
-                "thumb": thumb,
+                "thumb": None,  # set by the thumbnail pass below
+                "_thumb_src": thumb_src,
                 "_created": created,
             }
         )
@@ -270,6 +309,19 @@ def main() -> int:
     ordered = dated + undated
 
     clean_dir(out_dir)
+
+    # Scale each post's thumbnail source down to a small square WebP; if it
+    # can't be rasterised, link the original file instead (copied below).
+    for post in posts:
+        src = post.pop("_thumb_src", None)
+        if src is None:
+            continue
+        name = make_thumb(src, out_dir)
+        if name is None:
+            name = media_out_name(src.name)
+            renderer.used_media.setdefault(name, src)
+        post["thumb"] = name
+
     for post in posts:
         (out_dir / post["url"]).write_text(post_tmpl.render(**post), encoding="utf-8")
     (out_dir / "index.html").write_text(
