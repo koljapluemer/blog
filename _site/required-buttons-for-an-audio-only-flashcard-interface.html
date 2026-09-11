@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>required buttons for an audio-only flashcard interface</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <p class="back"><a href="index.html">&larr; all posts</a></p>
+    <article>
+      <h1>required buttons for an audio-only flashcard interface</h1>
+      
+      <p class="dates">
+        <time>created 2026-09-11</time>
+        <time>updated 2026-09-11</time>
+      </p>
+      
+      <p>I've been recently prototyping an interface for learning flashcard-style, using only audio and no visuals.
+This can then be used e.g. while walking around or while lounging on the couch very lazily.
+Here is the basic flow, with language learning as an example:</p>
+<ol>
+<li>Hear a target language sentence </li>
+<li>Think about whether you understand it</li>
+<li>Click a button to "Reveal" the solution</li>
+<li>Hear the translation of the sentence</li>
+<li>Rate (via one of two buttons) whether you got it right or not</li>
+</ol>
+<p>I implemented this via an ESP32-based "bluetooth keyboard", and a tiny Android app connecting to the ESP and playing sounds (the UI is only used for bluetooth setup and debugging):</p>
+<p><img src="pasted-image-20260911102200.png" alt="Pasted image 20260911102200"></p>
+<p>While testing, I noticed that it's often necessary to repeat phrases, e.g. because of background sounds or because I lost the context because something else happened around me.</p>
+<ul>
+<li>"Before Reveal", repeating means repeating the target language phrase.</li>
+<li>"After Reveal", repeating means repeating first the target language phrase, then the translation (helps with judging whether you got it right or not after a delay)</li>
+</ul>
+<p>This <em>can</em> be mapped to the 3 buttons currently available, e.g.:</p>
+<ul>
+<li>Before Reveal:<ul>
+<li><code>grey</code>: Reveal</li>
+<li><code>red</code>: Repeat</li>
+<li><code>green</code>: <em>dead</em></li>
+</ul>
+</li>
+<li>After Reveal<ul>
+<li><code>grey</code>: Repeat</li>
+<li><code>green</code>: Score as Correct</li>
+<li><code>red</code>: Score as Wrong
+However, as you can probably see, this gets quite confusing; we have modes and interaction overloads, and due to the context of the app no visual grounding on what is happening.</li>
+</ul>
+</li>
+</ul>
+<p>I think four buttons are required, so Wrong, Correct, Repeat and Reveal can be separate. They should ideally be distinguishable by feel.</p>
+<p>This creates a serious struggle for space, especially if this will ever make its way to a finger ring (or two) as I initially planned, but I think it's possible (or at any rate necessary).</p>
+    </article>
+  </main>
+</body>
+</html>
