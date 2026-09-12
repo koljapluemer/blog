@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>a failed flow for sentence-based language acquisition﹕ split example sentences into words, add examples for those words</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <p class="back"><a href="index.html">&larr; all posts</a></p>
+    <article>
+      <h1>a failed flow for sentence-based language acquisition﹕ split example sentences into words, add examples for those words</h1>
+      
+      <p class="dates">
+        <time>created 2026-09-11</time>
+        <time>updated 2026-09-11</time>
+      </p>
+      
+      <p>I've been thinking a lot about how to properly learn a language with (example) sentences, based on the following:</p>
+<ol>
+<li>Learning vocabulary in context of sentences is much smarter and more efficient than learning it without context. Or so would about any research suggest.</li>
+<li>If you don't speak the language well, a sentence isn't really context.</li>
+</ol>
+<p>To elaborate on the second point: If you are a beginner Vietnamese learner, adding the example sentence <code>Tôi thích thành phố này lắm</code> (which you 0% understand) to your flashcard for <code>thành phố | the city</code> doesn't help <em>at all</em>.</p>
+<p>I tried to attack this by implementing a flow like this:</p>
+<ol>
+<li>Add one example sentence of your choice</li>
+<li>Randomly be prompted to do one of the following:<ul>
+<li>Extract the words/vocabulary from a sentence in your database where this has not been done <em>(you may do this w/ an LLM)</em></li>
+<li>Add example sentence for vocabulary in the database where you have less than three <em>(you may do this w/ an LLM)</em></li>
+<li>Practice random sentence with standard Spaced Repetition flashcard flow </li>
+<li>Practice random vocabulary with standard Spaced Repetition flashcard flow </li>
+</ul>
+</li>
+</ol>
+<p>Here are the screens needed for this (I test-implemented this as part of <a href="https://www.samlearns.org">samlearns</a>).</p>
+<p><img src="pasted-image-20260911152753.png" alt="Pasted image 20260911152753"></p>
+<p>The UX of this isn't too bad, thanks to the LLM support it flows fairly smoothly (without it, even extracting vocab from a sentence would take a long time and you'd have way out when you get stuck, since you are only just learning the sentence).</p>
+<p>However, due to the recurrent need to tab into ChatGPT to split sentences or find examples, I found myself in the mode of a data entry intern trying to be done and go home. This did little for my retention.</p>
+<p>That turned out to be the terminal flaw of this concept.</p>
+    </article>
+  </main>
+</body>
+</html>
