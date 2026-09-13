@@ -5,6 +5,7 @@ description = "Minimal static site generator for a flat Obsidian folder"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "feedgen>=1.0.0",
     "jinja2>=3.1",
     "markdown>=3.6",
     "pillow>=12.3.0",

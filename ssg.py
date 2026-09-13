@@ -23,11 +23,12 @@ import os
 import re
 import shutil
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, time, timezone
 from pathlib import Path
 
 import markdown
 import yaml
+from feedgen.feed import FeedGenerator
 from jinja2 import Environment, FileSystemLoader
 from PIL import Image, ImageOps
 
@@ -102,12 +103,15 @@ def resolve_path(value: str) -> Path:
     return p.resolve()
 
 
-def load_config() -> tuple[Path, Path, Path]:
+def load_config() -> tuple[Path, Path, Path, str | None]:
     cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8")) if CONFIG_PATH.exists() else {}
     notes = resolve_path(cfg.get("obsidianPath") or ".")
     media = resolve_path(cfg.get("obsidianMediaPath") or cfg.get("obsidianPath") or ".")
     out = resolve_path(cfg.get("outputPath") or "_site")
-    return notes, media, out
+    site_url = cfg.get("siteUrl")
+    if site_url:
+        site_url = site_url.rstrip("/") + "/"
+    return notes, media, out, site_url
 
 
 def split_frontmatter(text: str) -> tuple[dict, str]:
@@ -249,7 +253,7 @@ def clean_dir(path: Path) -> None:
 
 
 def main() -> int:
-    notes_dir, media_dir, out_dir = load_config()
+    notes_dir, media_dir, out_dir, site_url = load_config()
     if not notes_dir.is_dir():
         print(f"note folder not found: {notes_dir}", file=sys.stderr)
         return 1
@@ -329,6 +333,26 @@ def main() -> int:
     (out_dir / "index.html").write_text(
         index_tmpl.render(posts=ordered), encoding="utf-8"
     )
+
+    if site_url:
+        fg = FeedGenerator()
+        fg.id(site_url)
+        fg.title("Kolja Sam's Notes")
+        fg.description("research notes on building interfaces for learning")
+        fg.link(href=site_url, rel="alternate")
+        fg.link(href=site_url + "feed.xml", rel="self")
+        fg.language("en")
+        for post in dated:
+            fe = fg.add_entry()
+            url = site_url + post["url"]
+            fe.id(url)
+            fe.title(post["title"])
+            fe.link(href=url)
+            fe.content(post["content"], type="CDATA")
+            fe.pubDate(datetime.combine(post["_created"], time.min, tzinfo=timezone.utc))
+        fg.rss_file(str(out_dir / "feed.xml"))
+    else:
+        print("warning: no siteUrl in config.json; skipping feed.xml", file=sys.stderr)
 
     for out_name, src in renderer.used_media.items():
         shutil.copy2(src, out_dir / out_name)

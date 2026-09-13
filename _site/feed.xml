@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Kolja Sam's Notes</title><link>https://blog.koljasam.com/feed.xml</link><description>research notes on building interfaces for learning</description><atom:link href="https://blog.koljasam.com/feed.xml" rel="self"/><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><language>en</language><lastBuildDate>Sun, 13 Sep 2026 08:10:12 +0000</lastBuildDate><item><title>gradual cloze deletion concept for memorizing verbatim quotes with interdependent flashcards</title><link>https://blog.koljasam.com/gradual-cloze-deletion-concept-for-memorizing-verbatim-quotes-with-interdependent-flashcards.html</link><description><![CDATA[<h2 id="problem">Problem</h2>
+<p>How can we elegantly memorize a quote like:</p>
+<blockquote>
+<p>Because the sunset, like survival, exists only on the verge of its own disappearing. To be gorgeous, you must first be seen, but to be seen allows you to be hunted.</p>
+</blockquote>
+<p>— Ocean Vuong</p>
+<h2 id="solution-concept">Solution Concept</h2>
+<ol>
+<li><em>Spaced Repetition</em> is probably great to learn how to remember quotes (<em>memoria verborum</em>)</li>
+<li>However, memorizing a whole quote "in one go" is hard verging on impossible</li>
+<li>To solve this, we can split the memorization process into parts; we will memorize the quote from back to front (<em>back-chaining</em>, concept from <em>Fluent Forever</em>), using <em>cloze deletion</em> such as:<ul>
+<li>"Complete the missing part: <em>Because the sunset ＿＿＿＿</em>"</li>
+</ul>
+</li>
+<li>However, for that, we need multiple spaced repetition flashcards per quote to memorize, and need to learn them in a specific order (this is tedious to author, and the ordering is <a href="https://forums.ankiweb.net/t/is-it-possible-to-link-cards/13536">not supported by traditional software such as Anki</a>)</li>
+<li>So we design our own webapp supporting this use case...</li>
+</ol>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="cms.png" alt="A special authoring wizard allows generating a set of staggered flashcards with increasing difficulty.">
+<em>A special authoring wizard allows to quickly generate a set of staggered flashcards with increasing difficulty.</em></p>
+<p><img src="easier.png" alt="Flashcards are practiced with a classic reveal-score flow.">
+<em>Flashcards are practiced with a classic reveal-score flow.</em></p>
+<p><img src="harder.png" alt="Harder flashcards only appear once their prerequisites are practiced.">
+<em>Harder flashcards will not come up in practice unless all their prerequisite flashcards are practiced (meaning they came up at least once and are currently not <code>due</code> according to the <a href="https://github.com/open-spaced-repetition/ts-fsrs">ts-fsrs</a> algorithm).</em></p>
+<h2 id="links">Links</h2>
+<ul>
+<li><a href="https://github.com/koljapluemer/karten">Repository</a></li>
+<li><strong><a href="https://sams-karten.netlify.app">Webapp</a></strong></li>
+</ul>]]></description><guid isPermaLink="false">https://blog.koljasam.com/gradual-cloze-deletion-concept-for-memorizing-verbatim-quotes-with-interdependent-flashcards.html</guid><pubDate>Wed, 14 Jan 2026 00:00:00 +0000</pubDate></item><item><title>Al Kutshina: A drag-and-drop puzzle for language acquisition inspired by TPR</title><link>https://blog.koljasam.com/al-kutshina-a-drag-and-drop-puzzle-for-language-acquisition-inspired-by-tpr.html</link><description><![CDATA[<p><a href="https://alkutshina.koljasam.com/">Play Online</a></p>
+<p><img src="al-kutshina.webp" alt="al-kutshina"></p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/al-kutshina-a-drag-and-drop-puzzle-for-language-acquisition-inspired-by-tpr.html</guid><pubDate>Thu, 09 Jul 2026 00:00:00 +0000</pubDate></item><item><title>peculiarities when designing a learning app for target language numbers (1-100)</title><link>https://blog.koljasam.com/peculiarities-when-designing-a-learning-app-for-target-language-numbers-1-100.html</link><description><![CDATA[<ol>
+<li>Definitely needs bespoke systems per language, note e.g. how French numbers are composed</li>
+<li>Interference is running wild here, e.g. the word for "63" may interfere with the words for "36", "60", "3", "6", and more</li>
+<li>Relations between learning items (=numbers) are semi-formalizable, e.g. an English learner who knows "twenty" and "one" will likely not have too much trouble with "twenty-one"; but the same can not be said for 10, 2 and 12. </li>
+<li>You really need to teach specific idiomatic usage such as:<ol>
+<li>German speakers dictating 2 as "zwo" instead of "zwei"</li>
+<li>Egyptians using "zero" instead of "sifr" for 0, but only in phone numbers</li>
+<li>How to indicate a decimal point<ol>
+<li>More generally, how to use numbers to express monetary value, times of day, etc., which may as well be a separate learning app</li>
+</ol>
+</li>
+<li>How numbers are grouped or rounded, such as in "a dozen"</li>
+<li>...</li>
+</ol>
+</li>
+</ol>]]></description><guid isPermaLink="false">https://blog.koljasam.com/peculiarities-when-designing-a-learning-app-for-target-language-numbers-1-100.html</guid><pubDate>Tue, 08 Sep 2026 00:00:00 +0000</pubDate></item><item><title>potential tools to actually interact with your notes</title><link>https://blog.koljasam.com/potential-tools-to-actually-interact-with-your-notes.html</link><description><![CDATA[<p><img src="camscanner-04-09-2026-18.45.jpg" alt="CamScanner 04-09-2026 18.45"></p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/potential-tools-to-actually-interact-with-your-notes.html</guid><pubDate>Wed, 09 Sep 2026 00:00:00 +0000</pubDate></item><item><title>concept for initial memorization of target language phrases: prompt, wait, check</title><link>https://blog.koljasam.com/concept-for-initial-memorization-of-target-language-phrases-prompt-wait-check.html</link><description><![CDATA[<p>Learning algorithms like fsrs are concerned w/ <em>not forgetting</em> already learned (whatever that means) items.
+Thus, we need a good flow to initially memorize a learning item, especially when it's complex, like a foreign language phrase.
+Here is one such concept I currently quite like:</p>
+<ol>
+<li>Prompt the learner to remember the phrase (however they see fit)</li>
+<li>Wait a short interval, perhaps 3 seconds</li>
+<li>Check if the phrase has been remembered in the usual SR flow</li>
+</ol>
+<p>Exemplary implementation in <a href="https://laminla.com/">laminla</a>:
+<img src="output.webp" alt="output"></p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/concept-for-initial-memorization-of-target-language-phrases-prompt-wait-check.html</guid><pubDate>Wed, 09 Sep 2026 00:00:00 +0000</pubDate></item><item><title>two concepts to make comprehensible input more enjoyable</title><link>https://blog.koljasam.com/two-concepts-to-make-comprehensible-input-more-enjoyable.html</link><description><![CDATA[<p><img src="pasted-image-20260910085738.png" alt="Pasted image 20260910085738"></p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/two-concepts-to-make-comprehensible-input-more-enjoyable.html</guid><pubDate>Thu, 10 Sep 2026 00:00:00 +0000</pubDate></item><item><title>required buttons for an audio-only flashcard interface</title><link>https://blog.koljasam.com/required-buttons-for-an-audio-only-flashcard-interface.html</link><description><![CDATA[<p>I've been recently prototyping an interface for learning flashcard-style, using only audio and no visuals.
+This can then be used e.g. while walking around or while lounging on the couch very lazily.
+Here is the basic flow, with language learning as an example:</p>
+<ol>
+<li>Hear a target language sentence </li>
+<li>Think about whether you understand it</li>
+<li>Click a button to "Reveal" the solution</li>
+<li>Hear the translation of the sentence</li>
+<li>Rate (via one of two buttons) whether you got it right or not</li>
+</ol>
+<p>I implemented this via an ESP32-based "bluetooth keyboard", and a tiny Android app connecting to the ESP and playing sounds (the UI is only used for bluetooth setup and debugging):</p>
+<p><img src="pasted-image-20260911102200.png" alt="Pasted image 20260911102200"></p>
+<p>While testing, I noticed that it's often necessary to repeat phrases, e.g. because of background sounds or because I lost the context because something else happened around me.</p>
+<ul>
+<li>"Before Reveal", repeating means repeating the target language phrase.</li>
+<li>"After Reveal", repeating means repeating first the target language phrase, then the translation (helps with judging whether you got it right or not after a delay)</li>
+</ul>
+<p>This <em>can</em> be mapped to the 3 buttons currently available, e.g.:</p>
+<ul>
+<li>Before Reveal:<ul>
+<li><code>grey</code>: Reveal</li>
+<li><code>red</code>: Repeat</li>
+<li><code>green</code>: <em>dead</em></li>
+</ul>
+</li>
+<li>After Reveal<ul>
+<li><code>grey</code>: Repeat</li>
+<li><code>green</code>: Score as Correct</li>
+<li><code>red</code>: Score as Wrong
+However, as you can probably see, this gets quite confusing; we have modes and interaction overloads, and due to the context of the app no visual grounding on what is happening.</li>
+</ul>
+</li>
+</ul>
+<p>I think four buttons are required, so Wrong, Correct, Repeat and Reveal can be separate. They should ideally be distinguishable by feel.</p>
+<p>This creates a serious struggle for space, especially if this will ever make its way to a finger ring (or two) as I initially planned, but I think it's possible (or at any rate necessary).</p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/required-buttons-for-an-audio-only-flashcard-interface.html</guid><pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate></item><item><title>attempt to regularly think about open questions: Telegram bot</title><link>https://blog.koljasam.com/attempt-to-regularly-think-about-open-questions-telegram-bot.html</link><description><![CDATA[<p>There is a notion of "12 favorite problems", attributed (as many things are), to Feynman: Have a list of a dozen or so open questions in your head (whatever that means), so you have a chance to make sudden leaps when new information comes in, randomly during your day.</p>
+<p>I believe that this solves an important problem, but isn't at all easy to actually do.</p>
+<p>My first shot at this was to maintain a simple plaintext list of questions in <a href="https://github.com/koljapluemer/dumb-notes">dumb notes</a>, then have my laptop run a python script sending me one of them per day, yielding a chat like this: <img src="pasted-image-20260911174322.png" alt="Pasted image 20260911174322"></p>
+<p>Implementing a personal telegram bot like this is really quick, by the way.</p>
+<p>However, while this seemed neat, this implementation turned out not to be really worth it:</p>
+<ol>
+<li>I was lacking a habit to regularly maintain and update the list of questions</li>
+<li>The daily question would arrive only after I turned on my computer, which prevented any time-based habit from forming</li>
+<li>Looking at a question just once per day didn't really help to solidify it as a daily lodestone in my head, I'd think about it for a couple seconds and then forget about it</li>
+</ol>]]></description><guid isPermaLink="false">https://blog.koljasam.com/attempt-to-regularly-think-about-open-questions-telegram-bot.html</guid><pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate></item><item><title>a failed flow for sentence-based language acquisition: split example sentences into words, add examples for those words</title><link>https://blog.koljasam.com/a-failed-flow-for-sentence-based-language-acquisition-split-example-sentences-into-words-add-examples-for-those-words.html</link><description><![CDATA[<p>I've been thinking a lot about how to properly learn a language with (example) sentences, based on the following:</p>
+<ol>
+<li>Learning vocabulary in context of sentences is much smarter and more efficient than learning it without context. Or so would about any research suggest.</li>
+<li>If you don't speak the language well, a sentence isn't really context.</li>
+</ol>
+<p>To elaborate on the second point: If you are a beginner Vietnamese learner, adding the example sentence <code>Tôi thích thành phố này lắm</code> (which you 0% understand) to your flashcard for <code>thành phố | the city</code> doesn't help <em>at all</em>.</p>
+<p>I tried to attack this by implementing a flow like this:</p>
+<ol>
+<li>Add one example sentence of your choice</li>
+<li>Randomly be prompted to do one of the following:<ul>
+<li>Extract the words/vocabulary from a sentence in your database where this has not been done <em>(you may do this w/ an LLM)</em></li>
+<li>Add example sentence for vocabulary in the database where you have less than three <em>(you may do this w/ an LLM)</em></li>
+<li>Practice random sentence with standard Spaced Repetition flashcard flow </li>
+<li>Practice random vocabulary with standard Spaced Repetition flashcard flow </li>
+</ul>
+</li>
+</ol>
+<p>Here are the screens needed for this (I test-implemented this as part of <a href="https://www.samlearns.org">samlearns</a>).</p>
+<p><img src="pasted-image-20260911152753.png" alt="Pasted image 20260911152753"></p>
+<p>The UX of this isn't too bad, thanks to the LLM support it flows fairly smoothly (without it, even extracting vocab from a sentence would take a long time and you'd have way out when you get stuck, since you are only just learning the sentence).</p>
+<p>However, due to the recurrent need to tab into ChatGPT to split sentences or find examples, I found myself in the mode of a data entry intern trying to be done and go home. This did little for my retention.</p>
+<p>That turned out to be the terminal flaw of this concept.</p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/a-failed-flow-for-sentence-based-language-acquisition-split-example-sentences-into-words-add-examples-for-those-words.html</guid><pubDate>Fri, 11 Sep 2026 00:00:00 +0000</pubDate></item><item><title>a minimalist day-based personal calendar</title><link>https://blog.koljasam.com/a-minimalist-day-based-personal-calendar.html</link><description><![CDATA[<p>calendar software is often overly rigid (not to mention complex) in representing how people actually plan their days, c.f.:</p>
+<blockquote>
+<p>Tracking the start time of meetings is far more important than tracking the end times, yet calendar programs don't differentiate between the two. In the last 30 years, I've initiated and attended thousands of meetings. The starting time of these meetings is extremely important. For most of the meetings, however, the end time is not important, not needed, not specified, and not knowable in advance. </p>
+</blockquote>
+<p>— <em>The Inmates Are Running the Asylum</em></p>
+<p>I think especially for personal use (i.e. no invite functions, public visibility, etc), we may get away with a calendar that only tracks the day of a given event, together with a plain-text field where the user may or may not specify start time, end time, location, etc. 
+The interface can then be very simple indeed (<a href="https://github.com/koljapluemer/calendar">I prototyped this in flutter</a>):
+<img src="pasted-image-20260912171550.png" alt="Pasted image 20260912171550"></p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/a-minimalist-day-based-personal-calendar.html</guid><pubDate>Sat, 12 Sep 2026 00:00:00 +0000</pubDate></item><item><title>do we need custom theories to explain language acquisition?</title><link>https://blog.koljasam.com/do-we-need-custom-theories-to-explain-language-acquisition.html</link><description><![CDATA[<p>Traditional research seems to assume that language acquisition is somehow special; different from other skill acquisition. Thus critical period, universal grammar, poverty of stimulus.</p>
+<p>Yet, what parts of language learning can we actually not explain with run-of-the-mill learning theory?</p>
+<ul>
+<li>Efficacy of comprehensible input meshes with findings in the field of perceptual skill acquisition</li>
+<li>The fact that explaining someone a complex grammar rule is ineffective if the goal is to speak fluently but may help getting started seems to perfectly mirror findings (and teacher's wisdom) on how to teach procedural skills (e.g. backhand in tennis)</li>
+<li>Children being able to correctly form sentence they could have never heard is not any more bewildering than firefighters being effective in fighting fires in buildings they have never seen</li>
+<li>The critical period suspiciously smells like an ideal learning environment à la Deliberate Practice <ul>
+<li>high intrinsic base motivation: child must communicate or (e.g.) starve to death </li>
+<li>massive amount of practice hours over several years</li>
+<li>immediate feedback: child gets rich and detailed impression whether it was understood; what effect its communication had</li>
+<li>challenged to perform at edge of ability all the time: child is constantly exposed to speech that is worth understanding as best as it currently can, but caretakers also adjust their speech so communication can occur</li>
+</ul>
+</li>
+</ul>
+<p>Just musing here. Very hard to find one's way in the decades of applied-linguistics research with its love for frameworks and meta-frameworks entirely disconnected from reality.</p>]]></description><guid isPermaLink="false">https://blog.koljasam.com/do-we-need-custom-theories-to-explain-language-acquisition.html</guid><pubDate>Sun, 13 Sep 2026 00:00:00 +0000</pubDate></item></channel></rss>
