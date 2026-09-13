@@ -286,9 +286,11 @@ def main() -> int:
         else:
             m = re.search(r'<img\b[^>]*\bsrc="([^"]+)"', content)
             thumb_src = renderer.used_media.get(m.group(1)) if m else None
+
+        title = path.stem.replace("﹕", ":").replace("﹖", "?")
         posts.append(
             {
-                "title": path.stem,  # filename verbatim (minus .md)
+                "title": title,  
                 "url": slugify(path.stem) + ".html",
                 "created": created.isoformat() if created else None,
                 "updated": updated.isoformat() if updated else None,
