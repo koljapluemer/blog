@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>just slapping an embeding-based semantic search on your notes is pretty powerful</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Kolja Sam" href="feed.xml">
+
+  <script>
+    window.goatcounter = {
+      path: function (p) { return location.host + p }
+    }
+  </script>
+  <script data-goatcounter="https://koljasam.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+  <main>
+    <p class="back"><a href="index.html">&larr; all posts</a></p>
+    <article>
+      <h1>just slapping an embeding-based semantic search on your notes is pretty powerful</h1>
+      
+      <p class="dates">
+        <time>created 2026-09-14</time>
+        <time>updated 2026-09-14</time>
+      </p>
+      
+      <p><img src="pasted-image-20260914084608.png" alt="Pasted image 20260914084608"></p>
+<p>If you are taking notes in any kind of atomic/zettelkasten fashion, I strongly recommend running an embedding on them.
+I did this in two simple vibecoded python scripts, one building an index, one allowing me to search for what's aligned to an arbitrary string, e.g.:</p>
+<pre><code>uv run search.py &quot;drafts and project documentation accumulates without me ever finishing it; instead it kills my motivation&quot; --index index.pkl --top-n 12
+</code></pre>
+<p>This turns out to be a quite powerful way to find notes that are related but not obviously related to the issue at hand, in spirit of this Luhmann quote (translation mine):</p>
+<blockquote>
+<p>Für Kommunikation ist eine der elementaren Voraussetzungen, dass die Partner sich wechselseitig überraschen können</p>
+<p>For communication [with your zettelkasten, in this context] it is a basic precondition that the partners can surprise each other </p>
+</blockquote>
+<p>While it would be neat to deeply embed this feature directly into the note-editing flow (or make this an actual RAG, to go with the times), for now this is quite sufficient: I just search for the quoted strings in my note-taking app (i.e. [graphirst]) and then work from there.</p>
+    </article>
+  </main>
+</body>
+
+</html>
