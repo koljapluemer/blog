@@ -3,37 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>CNN</title>
 <style>
-  body { max-width: 42rem; margin: 2rem auto; padding: 0 1rem; font: 1.05rem/1.6 system-ui, sans-serif; }
-  img, video { max-width: 100%; }
-  math { font-family: math; }
-  .missing { color: #ba0000; cursor: not-allowed; text-decoration: none; }
+  body { max-width: 40rem; margin: 2rem auto; padding: 0 1rem; font: 1.05rem/1.6 system-ui, sans-serif; }
+  h1, h2, h3 { line-height: 1.25; }
+  a { color: inherit; }
+  .missing { color: #b42318; cursor: not-allowed; text-decoration: none; }
+  img, video { max-width: 100%; height: auto; }
+  pre { overflow-x: auto; padding: .75rem 1rem; border-radius: 6px; background: rgba(127, 127, 127, .12); }
+  code { font-size: .9em; }
+  pre code { font-size: inherit; }
+  blockquote { margin-left: 0; padding-left: 1rem; border-left: 3px solid rgba(127, 127, 127, .4); }
+  table { border-collapse: collapse; }
+  th, td { padding: .3rem .6rem; border-bottom: 1px solid rgba(127, 127, 127, .3); }
+  .viz { margin: 1.5rem 0; }
+  .viz iframe { display: block; width: 100%; border: 0; }
+  .viz summary { cursor: pointer; font-size: .85rem; opacity: .6; }
+  .viz details pre { margin: .4rem 0 0; white-space: pre-wrap; font: .85rem/1.5 system-ui, sans-serif; }
 </style>
 </head>
 <body>
-<!-- <nav><a href="../index.html">Home</a></nav> -->
+<nav><a href="../index.html">Home</a></nav>
 <main>
 <p>Today, I want to understand CNNs.</p>
 <p>As apparent by the name, they use convolution. I only have a vague intuition on that. I have been told that this is how Gaussian blur works (thanks Maren). Let's see if we can visualize that:</p>
-<pre><code class="language-thea">
-Demonstrate how the 'smearing' of a convolution function works, with Gaussian blur as an example.
-Make a 20x20 image (cat or something) with grayscale pixels. Show a red pointer going over the pixel, convoluting them. Show the two functions and the result as relevant. Make the pointer go very slow, resting on each pixel several seconds per default, so user can see what's going on. Keep the whole visualization tight and well understandable. Use a special &quot;Gaussian blur&quot; that takes only pixels in the current line into account, ignoring lines above and below, so we can accurately and non-confusingly visualize the smearing of the functions.
-Give user controls such as pause/start/restart.
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/lucid-stone-3/index.html" sandbox="allow-scripts" title="Demonstrate how the &#x27;smearing&#x27; of a convolution function works, with Gaussian blur as an example." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Demonstrate how the &#x27;smearing&#x27; of a convolution function works, with Gaussian blur as an example.&#10;Make a 20x20 image (cat or something) with grayscale pixels. Show a red pointer going over the pixel, convoluting them. Show the two functions and the result as relevant. Make the pointer go very slow, resting on each pixel several seconds per default, so user can see what&#x27;s going on. Keep the whole visualization tight and well understandable. Use a special &quot;Gaussian blur&quot; that takes only pixels in the current line into account, ignoring lines above and below, so we can accurately and non-confusingly visualize the smearing of the functions.&#10;Give user controls such as pause/start/restart.</pre></details></figcaption></figure>
 <p>That makes lots of sense. It took me a moment to wrap my head around what Gauss actually does and when and where, but I think I got it. To prevent my brain from overfitting the concept of convolution to Gaussian blur, I looked around for some more examples. Apparently edge detection is another use case. Let's try to get a visualization on that.</p>
-<pre><code class="language-thea">
-Demonstrate how a convolution function is used for edge detection.
-Make a 20x20 pixel image (black and white) with six or so randomly placed, randomly sized and randomly rotated rectangles.
-Then show a red kernel going over the image slowly, with a convolution edge detection function. Show the two functions and the result as relevant. Make the kernel go very slow, resting on each pixel several seconds per default, so user can see what's going on. Keep the whole visualization tight and well understandable.
-Give user controls such as pause/start/restart. Do not let the user pick algos or other such advanced settings, it's just about the core concept. Do not allow the user to move the kernel. Make sure the kernel is animated correctly even on the fast condition. Ensure clean state. As output image, show detected edges in red on the pixel image (I guess we need to set a threshold here)?
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/mighty-hawk-2/index.html" sandbox="allow-scripts" title="Demonstrate how a convolution function is used for edge detection." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Demonstrate how a convolution function is used for edge detection.&#10;Make a 20x20 pixel image (black and white) with six or so randomly placed, randomly sized and randomly rotated rectangles.&#10;Then show a red kernel going over the image slowly, with a convolution edge detection function. Show the two functions and the result as relevant. Make the kernel go very slow, resting on each pixel several seconds per default, so user can see what&#x27;s going on. Keep the whole visualization tight and well understandable.&#10;Give user controls such as pause/start/restart. Do not let the user pick algos or other such advanced settings, it&#x27;s just about the core concept. Do not allow the user to move the kernel. As output image, show detected edges in red on the pixel image (I guess we need to set a threshold here)?</pre></details></figcaption></figure>
 <p>In the description of CNNs, dot products are also mentioned. I have some vague memory of vectors being multiplied, but let's see if we can't clarify this:</p>
-<pre><code class="language-thea">
-Visualize, simply and clearly, what a dot product is.
-Let user interact with the visualization either within the graph or via input fields, whatever makes sense for best UX.
-For in-visualization dragging, make sure to use an establish pattern or library that drag and drop correctly works.
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/polar-canyon-2/index.html" sandbox="allow-scripts" title="Visualize, simply and clearly, what a dot product is." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize, simply and clearly, what a dot product is.&#10;Let user interact with the visualization either within the graph or via input fields, whatever makes sense for best UX.&#10;For in-visualization dragging, make sure to use an establish pattern or library that drag and drop correctly works.</pre></details></figcaption></figure>
 <p>Ok, be that as it may, I'm still not quite sure what the dot product actually <em>is</em>, or what it is <em>for</em>.</p>
 <p>After some more researching around, it seems the question that the dot product answers is <em>how much do two vectors point in the same direction?</em> which makes a lot of sense (in hindsight).</p>
 <p>Gemini claims this can be used to compare how similar something like two users or two words are, after we run an embedding on them. This makes sense, intuitively. Can we visualize this, though?</p>
@@ -43,14 +42,7 @@ For in-visualization dragging, make sure to use an establish pattern or library 
 <li>Warmth (how much red vs blue)</li>
 <li>Saturation</li>
 </ol>
-<pre><code class="language-thea">
-Visualize how the dot product works in context of embedding.
-We let the user paint on two canvases, each 50x50 pixels.
-We have a simple browser color picker, initially set to a random color, per canvas, with which the user can paint on the canvas. mid size brush, not adjustable. no other tools.
-We &quot;embed&quot; the results on two dimensions: warmth (how much red vs how much blue the color is) and saturation. Explain both briefly, and show the relative statistic of these near the relevant canvasses. Then show a 2D dot product vector visualization showing how aligned the two painted images are.
-Make sure to model state cleanly.
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/deft-panda-1/index.html" sandbox="allow-scripts" title="Visualize how the dot product works in context of embedding." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize how the dot product works in context of embedding.&#10;We let the user paint on two canvases, each 50x50 pixels.&#10;We have a simple browser color picker, initially set to a random color, per canvas, with which the user can paint on the canvas. mid size brush, not adjustable. no other tools.&#10;We &quot;embed&quot; the results on two dimensions: warmth (how much red vs how much blue the color is) and saturation. Explain both briefly, and show the relative statistic of these near the relevant canvasses. Then show a 2D dot product vector visualization showing how aligned the two painted images are.&#10;Make sure to model state cleanly.</pre></details></figcaption></figure>
 <p>Ok, back to CNNs.<br />
 I just read that they mostly handle grid-like data.<br />
 This is not surprising, given how much <em>grids</em> we had when we just looked at convolution.<br />
@@ -58,6 +50,7 @@ Which also means that CNNs are used for image stuff, which makes sense, because 
 It also uses a kernel to pass over the image, that's just like the Gauss stuff ahead.<br />
 All clear on that front.</p>
 <p>Now, somehow it takes this stuff and looks for &quot;deeper features&quot;. How?</p>
+<script>addEventListener('message', (e) => { const d = e.data; if (!d || d.source !== 'thea' || d.type !== 'resize' || typeof d.height !== 'number') return; for (const f of document.querySelectorAll('.viz iframe')) if (f.contentWindow === e.source) f.style.height = Math.max(d.height, 40) + 'px'; });</script>
 
 </main>
 </body>

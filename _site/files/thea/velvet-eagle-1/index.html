@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data: blob:; font-src data:; media-src data: blob:; worker-src blob:">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script data-thea-bridge>(() => {
+  const post = (m) => { if (parent !== window) parent.postMessage({ source: 'thea', ...m }, '*'); };
+  const apply = (mode) => { document.documentElement.dataset.theme = mode; document.documentElement.style.colorScheme = mode; };
+  apply(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  addEventListener('message', (e) => { if (e.source === parent && e.data && e.data.type === 'theme') apply(e.data.mode === 'dark' ? 'dark' : 'light'); });
+  addEventListener('error', (e) => post({ type: 'error', message: String(e.message || e.error) }));
+  addEventListener('unhandledrejection', (e) => post({ type: 'error', message: String((e.reason && e.reason.message) || e.reason) }));
+  const size = () => post({ type: 'resize', height: Math.ceil(document.documentElement.getBoundingClientRect().height) });
+  addEventListener('DOMContentLoaded', () => { new ResizeObserver(size).observe(document.documentElement); size(); });
+})();</script>
+<style>html, body { margin: 0; }
+:root { --viz-bg: transparent; --viz-surface: #f4f4f5; --viz-fg: #18181b; --viz-muted: #71717a; --viz-border: #e4e4e7;
+  --viz-accent: #2563eb; --viz-series: #2563eb, #ea580c, #16a34a, #9333ea, #db2777, #0891b2;
+  --viz-font: system-ui, "Noto Sans", "DejaVu Sans", sans-serif; --viz-mono: ui-monospace, "DejaVu Sans Mono", monospace;
+  color: var(--viz-fg); background: var(--viz-bg); font: 15px/1.5 var(--viz-font); }
+:root[data-theme="dark"] { --viz-surface: #27272a; --viz-fg: #f4f4f5; --viz-muted: #a1a1aa; --viz-border: #3f3f46;
+  --viz-accent: #60a5fa; --viz-series: #60a5fa, #fb923c, #4ade80, #c084fc, #f472b6, #22d3ee; }</style>
+<style>#wave{display:block;width:100%;aspect-ratio:5 / 2;min-height:160px;max-height:420px}
+</style>
+</head>
+<body>
+<canvas id="wave"></canvas>
+
+<script>"use strict";(()=>{var h=document.getElementById("wave"),e=h.getContext("2d"),g=2,p=4;function b(){let t=getComputedStyle(document.documentElement),i=t.getPropertyValue("--viz-series").split(",").map(n=>n.trim());return{right:i[0]||"#2563eb",left:i[1]||"#ea580c",sum:t.getPropertyValue("--viz-fg").trim()||"#18181b",axis:t.getPropertyValue("--viz-border").trim()||"#e4e4e7"}}function u(){let t=window.devicePixelRatio||1,{width:i,height:n}=h.getBoundingClientRect();h.width=Math.round(i*t),h.height=Math.round(n*t),e.setTransform(t,0,0,t,0,0)}function l(t,i,n,r,s,a){e.beginPath();for(let o=0;o<=t;o+=2){let c=i/2-n*r(o/t);o===0?e.moveTo(o,c):e.lineTo(o,c)}e.strokeStyle=s,e.lineWidth=a,e.stroke()}function d(t){let{width:i,height:n}=h.getBoundingClientRect(),r=b(),s=2*Math.PI*g,a=2*Math.PI/p,o=t/1e3,c=n/5;e.clearRect(0,0,i,n),e.lineCap="round",e.lineJoin="round",e.beginPath(),e.moveTo(0,n/2),e.lineTo(i,n/2),e.strokeStyle=r.axis,e.lineWidth=1,e.stroke(),l(i,n,c,m=>Math.sin(s*m-a*o),r.right,1.5),l(i,n,c,m=>Math.sin(s*m+a*o),r.left,1.5),l(i,n,c,m=>Math.sin(s*m-a*o)+Math.sin(s*m+a*o),r.sum,2.5),requestAnimationFrame(d)}new ResizeObserver(u).observe(h);u();requestAnimationFrame(d);})();
+</script>
+</body>
+</html>

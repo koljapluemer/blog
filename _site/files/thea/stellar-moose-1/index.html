@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data: blob:; font-src data:; media-src data: blob:; worker-src blob:">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script data-thea-bridge>(() => {
+  const post = (m) => { if (parent !== window) parent.postMessage({ source: 'thea', ...m }, '*'); };
+  const apply = (mode) => { document.documentElement.dataset.theme = mode; document.documentElement.style.colorScheme = mode; };
+  apply(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  addEventListener('message', (e) => { if (e.source === parent && e.data && e.data.type === 'theme') apply(e.data.mode === 'dark' ? 'dark' : 'light'); });
+  addEventListener('error', (e) => post({ type: 'error', message: String(e.message || e.error) }));
+  addEventListener('unhandledrejection', (e) => post({ type: 'error', message: String((e.reason && e.reason.message) || e.reason) }));
+  const size = () => post({ type: 'resize', height: Math.ceil(document.documentElement.getBoundingClientRect().height) });
+  addEventListener('DOMContentLoaded', () => { new ResizeObserver(size).observe(document.documentElement); size(); });
+})();</script>
+<style>html, body { margin: 0; }
+:root { --viz-bg: transparent; --viz-surface: #f4f4f5; --viz-fg: #18181b; --viz-muted: #71717a; --viz-border: #e4e4e7;
+  --viz-accent: #2563eb; --viz-series: #2563eb, #ea580c, #16a34a, #9333ea, #db2777, #0891b2;
+  --viz-font: system-ui, "Noto Sans", "DejaVu Sans", sans-serif; --viz-mono: ui-monospace, "DejaVu Sans Mono", monospace;
+  color: var(--viz-fg); background: var(--viz-bg); font: 15px/1.5 var(--viz-font); }
+:root[data-theme="dark"] { --viz-surface: #27272a; --viz-fg: #f4f4f5; --viz-muted: #a1a1aa; --viz-border: #3f3f46;
+  --viz-accent: #60a5fa; --viz-series: #60a5fa, #fb923c, #4ade80, #c084fc, #f472b6, #22d3ee; }</style>
+<style>.string-viz{width:100%;padding:8px 0;box-sizing:border-box}#string{display:block;width:100%;aspect-ratio:5 / 2;min-height:170px;max-height:340px;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}#string.dragging{cursor:grabbing}
+</style>
+</head>
+<body>
+<div class="string-viz">
+  <canvas id="string" aria-label="A string fixed between two walls. Drag it to pull it aside, release to let it vibrate."></canvas>
+</div>
+
+<script>"use strict";(()=>{var _=2*Math.PI*1.3,N=15e-6,Y=.22,q=.0035,S=new Float64Array(81),b=new Float64Array(81);for(let e=1;e<=80;e++)S[e]=e*_*Math.sqrt(1+N*e*e),b[e]=Y+q*e*e;function A(e,n){let o=new Float64Array(81),r=2*n/(Math.PI*Math.PI*e*(1-e));for(let i=1;i<=80;i++)o[i]=r/(i*i)*Math.sin(i*Math.PI*e);return o}function P(e,n,o){for(let r=1;r<=80;r++)o[r]=e[r]*Math.cos(S[r]*n)*Math.exp(-b[r]*n)}function E(e,n){let o=0;for(let r=1;r<=80;r++)o+=Math.abs(e[r])*Math.exp(-b[r]*n);return o}function M(e){let n=new Float32Array(81*e);for(let o=1;o<=80;o++)for(let r=0;r<e;r++)n[o*e+r]=Math.sin(o*Math.PI*r/(e-1));return n}function I(e,n,o,r){r.fill(0);for(let i=1;i<=80;i++){let m=e[i];if(Math.abs(m)<1e-6)continue;let l=i*o;for(let d=0;d<o;d++)r[d]+=m*n[l+d]}}var s=document.getElementById("string"),t=s.getContext("2d"),a={kind:"rest"},C=!1,v=0,u=0,f=0,c=2,O=M(c),p=new Float64Array(c),w=new Float64Array(81),T=()=>Math.max(14,Math.min(28,u*.04)),h=()=>T(),y=()=>u-T(),z=()=>f/2,k=()=>f/2-16,D=.03;function L(){let e=s.getBoundingClientRect(),n=window.devicePixelRatio||1;u=e.width,f=e.height,s.width=Math.round(u*n),s.height=Math.round(f*n),t.setTransform(n,0,0,n,0,0);let o=Math.max(2,Math.min(400,Math.ceil((y()-h())/2)));o!==c&&(c=o,O=M(c),p=new Float64Array(c)),g(performance.now())}function R(e){let n=s.getBoundingClientRect(),o=e.clientX-n.left,r=e.clientY-n.top,i=Math.min(1-D,Math.max(D,(o-h())/(y()-h()))),m=Math.max(-1,Math.min(1,(r-z())/k()));return{pos:i,amp:m}}function W(){v||(v=requestAnimationFrame(V))}function V(e){if(v=0,a.kind==="free"){let n=(e-a.released)/1e3;E(a.coeffs,n)*k()<.15&&(a={kind:"rest"})}g(e),a.kind==="free"&&W()}function G(e){if(a.kind==="free")P(a.coeffs,(e-a.released)/1e3,w),I(w,O,c,p);else if(a.kind==="drag"){let{pos:n,amp:o}=a;for(let r=0;r<c;r++){let i=r/(c-1);p[r]=i<=n?o*i/n:o*(1-i)/(1-n)}}else p.fill(0)}function F(e,n,o,r){t.save(),t.fillStyle=r.surface,t.fillRect(e,0,n,f),t.beginPath(),t.rect(e,0,n,f),t.clip(),t.strokeStyle=r.border,t.lineWidth=1,t.beginPath();for(let i=-n;i<f+n;i+=8)t.moveTo(e,i+n),t.lineTo(e+n,i);t.stroke(),t.restore(),t.strokeStyle=r.muted,t.lineWidth=1.5,t.beginPath(),t.moveTo(o,0),t.lineTo(o,f),t.stroke()}function J(){let e=getComputedStyle(document.documentElement),n=o=>e.getPropertyValue(o).trim();return{fg:n("--viz-fg"),muted:n("--viz-muted"),surface:n("--viz-surface"),border:n("--viz-border"),accent:n("--viz-accent")}}function g(e){if(!u||!f)return;let n=J(),o=h(),r=y(),i=z(),m=k();t.clearRect(0,0,u,f),t.strokeStyle=n.border,t.lineWidth=1,t.setLineDash([3,5]),t.beginPath(),t.moveTo(o,i),t.lineTo(r,i),t.stroke(),t.setLineDash([]),F(0,o,o,n),F(r,u-r,r,n),C||(t.fillStyle=n.muted,t.font="13px "+getComputedStyle(document.documentElement).getPropertyValue("--viz-font"),t.textAlign="center",t.fillText("Drag the string, then let go",(o+r)/2,i-18)),G(e),t.strokeStyle=n.accent,t.lineWidth=2.5,t.lineJoin="round",t.lineCap="round",t.beginPath();for(let l=0;l<c;l++){let d=o+(r-o)*l/(c-1),x=i+p[l]*m;l===0?t.moveTo(d,x):t.lineTo(d,x)}t.stroke(),t.fillStyle=n.fg;for(let l of[o,r])t.beginPath(),t.arc(l,i,3.5,0,Math.PI*2),t.fill();if(a.kind==="drag"){let l=o+(r-o)*a.pos,d=i+a.amp*m;t.fillStyle=n.accent,t.globalAlpha=.18,t.beginPath(),t.arc(l,d,12,0,Math.PI*2),t.fill(),t.globalAlpha=1,t.beginPath(),t.arc(l,d,4.5,0,Math.PI*2),t.fill()}}s.addEventListener("pointerdown",e=>{a.kind!=="drag"&&(e.preventDefault(),s.setPointerCapture(e.pointerId),s.classList.add("dragging"),C=!0,a={kind:"drag",pointerId:e.pointerId,...R(e)},g(performance.now()))});s.addEventListener("pointermove",e=>{a.kind!=="drag"||e.pointerId!==a.pointerId||(a={kind:"drag",pointerId:e.pointerId,...R(e)},g(performance.now()))});function B(e){a.kind!=="drag"||e.pointerId!==a.pointerId||(s.classList.remove("dragging"),a={kind:"free",coeffs:A(a.pos,a.amp),released:performance.now()},W())}s.addEventListener("pointerup",B);s.addEventListener("pointercancel",B);new ResizeObserver(L).observe(s);new MutationObserver(()=>g(performance.now())).observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]});L();})();
+</script>
+</body>
+</html>

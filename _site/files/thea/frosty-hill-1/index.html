@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data: blob:; font-src data:; media-src data: blob:; worker-src blob:">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script data-thea-bridge>(() => {
+  const post = (m) => { if (parent !== window) parent.postMessage({ source: 'thea', ...m }, '*'); };
+  const apply = (mode) => { document.documentElement.dataset.theme = mode; document.documentElement.style.colorScheme = mode; };
+  apply(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  addEventListener('message', (e) => { if (e.source === parent && e.data && e.data.type === 'theme') apply(e.data.mode === 'dark' ? 'dark' : 'light'); });
+  addEventListener('error', (e) => post({ type: 'error', message: String(e.message || e.error) }));
+  addEventListener('unhandledrejection', (e) => post({ type: 'error', message: String((e.reason && e.reason.message) || e.reason) }));
+  const size = () => post({ type: 'resize', height: Math.ceil(document.documentElement.getBoundingClientRect().height) });
+  addEventListener('DOMContentLoaded', () => { new ResizeObserver(size).observe(document.documentElement); size(); });
+})();</script>
+<style>html, body { margin: 0; }
+:root { --viz-bg: transparent; --viz-surface: #f4f4f5; --viz-fg: #18181b; --viz-muted: #71717a; --viz-border: #e4e4e7;
+  --viz-accent: #2563eb; --viz-series: #2563eb, #ea580c, #16a34a, #9333ea, #db2777, #0891b2;
+  --viz-font: system-ui, "Noto Sans", "DejaVu Sans", sans-serif; --viz-mono: ui-monospace, "DejaVu Sans Mono", monospace;
+  color: var(--viz-fg); background: var(--viz-bg); font: 15px/1.5 var(--viz-font); }
+:root[data-theme="dark"] { --viz-surface: #27272a; --viz-fg: #f4f4f5; --viz-muted: #a1a1aa; --viz-border: #3f3f46;
+  --viz-accent: #60a5fa; --viz-series: #60a5fa, #fb923c, #4ade80, #c084fc, #f472b6, #22d3ee; }</style>
+<style>#wave{display:block;width:100%;aspect-ratio:3 / 1;min-height:140px}
+</style>
+</head>
+<body>
+<canvas id="wave" aria-label="A travelling sine wave and its square"></canvas>
+
+<script>"use strict";(()=>{var r=document.getElementById("wave"),e=r.getContext("2d"),M=2.5,P=3,s=0,c=0;function u(){let t=window.devicePixelRatio||1,n=r.getBoundingClientRect();s=n.width,c=n.height,r.width=Math.round(s*t),r.height=Math.round(c*t),e.setTransform(t,0,0,t,0,0)}function f(){let t=getComputedStyle(document.documentElement),n=t.getPropertyValue("--viz-series").split(",").map(d=>d.trim());return{sine:n[0]||"#2563eb",square:n[1]||"#ea580c",axis:t.getPropertyValue("--viz-border").trim()||"#e4e4e7"}}function h(t){let n=t/1e3,{sine:d,square:g,axis:v}=f(),p=6,a=c/2,b=a-p,w=2*Math.PI*M/s,y=2*Math.PI/P;e.clearRect(0,0,s,c),e.strokeStyle=v,e.lineWidth=1,e.beginPath(),e.moveTo(0,Math.round(a)+.5),e.lineTo(s,Math.round(a)+.5),e.stroke(),e.lineWidth=2,e.lineJoin="round";let l=(o,x)=>{e.strokeStyle=x,e.beginPath();for(let i=0;i<=s;i+=1){let m=a-b*o(Math.sin(w*i-y*n));i===0?e.moveTo(i,m):e.lineTo(i,m)}e.stroke()};l(o=>o,d),l(o=>o*o,g),requestAnimationFrame(h)}new ResizeObserver(u).observe(r);u();requestAnimationFrame(h);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data: blob:; font-src data:; media-src data: blob:; worker-src blob:">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script data-thea-bridge>(() => {
+  const post = (m) => { if (parent !== window) parent.postMessage({ source: 'thea', ...m }, '*'); };
+  const apply = (mode) => { document.documentElement.dataset.theme = mode; document.documentElement.style.colorScheme = mode; };
+  apply(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  addEventListener('message', (e) => { if (e.source === parent && e.data && e.data.type === 'theme') apply(e.data.mode === 'dark' ? 'dark' : 'light'); });
+  addEventListener('error', (e) => post({ type: 'error', message: String(e.message || e.error) }));
+  addEventListener('unhandledrejection', (e) => post({ type: 'error', message: String((e.reason && e.reason.message) || e.reason) }));
+  const size = () => post({ type: 'resize', height: Math.ceil(document.documentElement.getBoundingClientRect().height) });
+  addEventListener('DOMContentLoaded', () => { new ResizeObserver(size).observe(document.documentElement); size(); });
+})();</script>
+<style>html, body { margin: 0; }
+:root { --viz-bg: transparent; --viz-surface: #f4f4f5; --viz-fg: #18181b; --viz-muted: #71717a; --viz-border: #e4e4e7;
+  --viz-accent: #2563eb; --viz-series: #2563eb, #ea580c, #16a34a, #9333ea, #db2777, #0891b2;
+  --viz-font: system-ui, "Noto Sans", "DejaVu Sans", sans-serif; --viz-mono: ui-monospace, "DejaVu Sans Mono", monospace;
+  color: var(--viz-fg); background: var(--viz-bg); font: 15px/1.5 var(--viz-font); }
+:root[data-theme="dark"] { --viz-surface: #27272a; --viz-fg: #f4f4f5; --viz-muted: #a1a1aa; --viz-border: #3f3f46;
+  --viz-accent: #60a5fa; --viz-series: #60a5fa, #fb923c, #4ade80, #c084fc, #f472b6, #22d3ee; }</style>
+<style>.dp{--dp-a: #9333ea;--dp-b: #16a34a;--dp-cool: #3b82f6;--dp-warm: #ef4444;--dp-neg: #dc2626;padding:.5rem 0 1rem;font-size:14px}:root[data-theme=dark] .dp{--dp-a: #c084fc;--dp-b: #4ade80;--dp-neg: #f87171}.dp-canvases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem}@media(max-width:520px){.dp-canvases{grid-template-columns:minmax(0,1fr);gap:1.25rem}}.dp-panel{display:flex;flex-direction:column;gap:.6rem;min-width:0}.dp-head{display:flex;align-items:center;gap:.6rem}.dp-tag{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:50%;font-weight:650;font-size:13px;color:#fff}.dp-tag-a{background:var(--dp-a)}.dp-tag-b{background:var(--dp-b)}:root[data-theme=dark] .dp-tag{color:#18181b}.dp-picker{display:inline-flex;align-items:center;gap:.45rem;cursor:pointer}.dp-picker input{width:2rem;height:2rem;padding:0;border:1px solid var(--viz-border);border-radius:6px;background:none;cursor:pointer}.dp-picker input::-webkit-color-swatch-wrapper{padding:2px}.dp-picker input::-webkit-color-swatch{border:none;border-radius:4px}.dp-picker input::-moz-color-swatch{border:none;border-radius:4px}.dp-hex{font:12px var(--viz-mono);color:var(--viz-muted)}.dp-panel canvas{display:block;width:100%;max-width:260px;aspect-ratio:1;image-rendering:pixelated;background:var(--viz-surface);border:1px solid var(--viz-border);border-radius:6px;cursor:crosshair;touch-action:none}.dp-stats{display:grid;gap:.55rem;max-width:260px}.dp-stat-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--viz-muted)}.dp-stat-row output{font:600 13px var(--viz-mono);color:var(--viz-fg);white-space:pre}.dp-bar{position:relative;height:8px;margin-top:3px;border-radius:4px;background:var(--viz-surface);overflow:hidden}.dp-bar-warm{background:linear-gradient(90deg,color-mix(in srgb,var(--dp-cool) 22%,transparent),var(--viz-surface) 50%,color-mix(in srgb,var(--dp-warm) 22%,transparent))}.dp-bar-warm .dp-fill{background:var(--dp-warm)}.dp-bar-warm .dp-fill.dp-is-cool{background:var(--dp-cool)}.dp-bar-sat .dp-fill{background:var(--viz-fg);opacity:.75}.dp-bar-cos .dp-fill{background:var(--viz-accent)}.dp-bar-cos .dp-fill.dp-neg{background:var(--dp-neg)}.dp-fill{position:absolute;top:0;bottom:0;border-radius:4px;transition:left .12s,width .12s}.dp-zero{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--viz-muted);opacity:.6;z-index:1}.dp-ends{display:flex;justify-content:space-between;font-size:11px;color:var(--viz-muted);margin-top:2px}.dp-explain{margin:1.5rem 0 1.25rem;padding:.75rem 0 0;border-top:1px solid var(--viz-border);display:grid;gap:.35rem;font-size:13px;color:var(--viz-muted)}.dp-explain div{display:flex;gap:.5rem}.dp-explain dt{flex:0 0 5.8rem;font-weight:600;color:var(--viz-fg)}.dp-explain dd{margin:0}@media(max-width:420px){.dp-explain div{display:block}.dp-explain dt{display:inline}.dp-explain dt:after{content:": "}.dp-explain dd{display:inline}}.dp-result{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:1.5rem;align-items:center}@media(max-width:720px){.dp-result{grid-template-columns:minmax(0,1fr);gap:1rem}}.dp-plot{display:block;width:100%;height:auto;aspect-ratio:480 / 290;overflow:visible}.dp-grid{fill:none;stroke:var(--viz-border);stroke-width:1}.dp-axis{stroke:var(--viz-muted);stroke-width:1}.dp-tick{fill:var(--viz-muted);font:11px var(--viz-mono)}.dp-axis-label{fill:var(--viz-muted);font:12px var(--viz-font)}.dp-origin{fill:var(--viz-fg)}.dp-ray{stroke:var(--dp-a);stroke-width:1;stroke-dasharray:2 4;opacity:.55}.dp-drop{stroke:var(--viz-muted);stroke-width:1.25;stroke-dasharray:4 3}.dp-proj{stroke:var(--viz-accent);stroke-width:6;stroke-linecap:round;opacity:.35}.dp-proj-dot{fill:var(--viz-accent)}.dp-proj.dp-neg{stroke:var(--dp-neg)}.dp-proj-dot.dp-neg{fill:var(--dp-neg)}.dp-arc{fill:none;stroke:var(--viz-fg);stroke-width:1.25;opacity:.7}.dp-theta{fill:var(--viz-fg);font:italic 13px var(--viz-font)}.dp-vec .dp-shaft{stroke-width:3;stroke-linecap:round}.dp-vec-a{color:var(--dp-a)}.dp-vec-b{color:var(--dp-b)}.dp-vec .dp-shaft{stroke:currentColor}.dp-vec .dp-head-fill{fill:currentColor}.dp-vlabel{fill:currentColor;font:700 14px var(--viz-font)}@media(max-width:520px){.dp-tick{font-size:15px}.dp-axis-label{font-size:16px}.dp-vlabel{font-size:19px}.dp-theta{font-size:17px}}.dp-math{display:grid;gap:1rem;min-width:0}.dp-eq{font:13px/1.7 var(--viz-mono);color:var(--viz-fg);overflow-wrap:anywhere}.dp-eq-sub{color:var(--viz-muted)}.dp-eq strong{color:var(--viz-fg);font-weight:700}.dp-sym{font-weight:700}.dp-a{color:var(--dp-a);font-weight:600}.dp-b{color:var(--dp-b);font-weight:600}.dp-verdict{margin:0;font-size:13px;color:var(--viz-muted)}
+</style>
+</head>
+<body>
+<div id="app" class="dp">
+  <div class="dp-canvases">
+    <section class="dp-panel" data-id="a">
+      <div class="dp-head">
+        <span class="dp-tag dp-tag-a">A</span>
+        <label class="dp-picker">
+          <input type="color" aria-label="Brush color for canvas A">
+          <span class="dp-hex"></span>
+        </label>
+      </div>
+      <canvas width="50" height="50" aria-label="Canvas A, paint with the pointer"></canvas>
+      <div class="dp-stats">
+        <div class="dp-stat">
+          <div class="dp-stat-row"><span>Warmth</span><output class="dp-w"></output></div>
+          <div class="dp-bar dp-bar-warm"><i class="dp-zero"></i><b class="dp-fill"></b></div>
+          <div class="dp-ends"><span>cool −1</span><span>+1 warm</span></div>
+        </div>
+        <div class="dp-stat">
+          <div class="dp-stat-row"><span>Saturation</span><output class="dp-s"></output></div>
+          <div class="dp-bar dp-bar-sat"><b class="dp-fill"></b></div>
+          <div class="dp-ends"><span>grey 0</span><span>1 vivid</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="dp-panel" data-id="b">
+      <div class="dp-head">
+        <span class="dp-tag dp-tag-b">B</span>
+        <label class="dp-picker">
+          <input type="color" aria-label="Brush color for canvas B">
+          <span class="dp-hex"></span>
+        </label>
+      </div>
+      <canvas width="50" height="50" aria-label="Canvas B, paint with the pointer"></canvas>
+      <div class="dp-stats">
+        <div class="dp-stat">
+          <div class="dp-stat-row"><span>Warmth</span><output class="dp-w"></output></div>
+          <div class="dp-bar dp-bar-warm"><i class="dp-zero"></i><b class="dp-fill"></b></div>
+          <div class="dp-ends"><span>cool −1</span><span>+1 warm</span></div>
+        </div>
+        <div class="dp-stat">
+          <div class="dp-stat-row"><span>Saturation</span><output class="dp-s"></output></div>
+          <div class="dp-bar dp-bar-sat"><b class="dp-fill"></b></div>
+          <div class="dp-ends"><span>grey 0</span><span>1 vivid</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <dl class="dp-explain">
+    <div><dt>Warmth</dt><dd>red minus blue, per pixel, scaled to −1…+1. Reds and oranges push it up, blues push it down.</dd></div>
+    <div><dt>Saturation</dt><dd>how vivid a pixel is, from 0 (grey, white, black) to 1 (pure colour).</dd></div>
+    <div><dt>Embedding</dt><dd>each image becomes the average over all 2,500 pixels. Blank pixels count as neutral (0, 0), so more paint means a longer vector.</dd></div>
+  </dl>
+
+  <div class="dp-result">
+    <svg class="dp-plot" viewBox="0 0 480 290" role="img" aria-label="Embedding vectors A and B"></svg>
+    <div class="dp-math">
+      <div class="dp-eq" id="dp-eq"></div>
+      <div class="dp-cos">
+        <div class="dp-stat-row"><span>Alignment (cos θ)</span><output id="dp-cos"></output></div>
+        <div class="dp-bar dp-bar-cos"><i class="dp-zero"></i><b class="dp-fill" id="dp-cos-fill"></b></div>
+        <div class="dp-ends"><span>opposed −1</span><span>0</span><span>+1 aligned</span></div>
+      </div>
+      <p class="dp-verdict" id="dp-verdict"></p>
+    </div>
+  </div>
+</div>
+
+<script>"use strict";(()=>{var f=50,k=3.5,X="http://www.w3.org/2000/svg",_=["a","b"],Y=e=>{let t=parseInt(e.slice(1),16);return[t>>16&255,t>>8&255,t&255]},W=([e,t,n])=>"#"+[e,t,n].map(r=>Math.round(r).toString(16).padStart(2,"0")).join(""),Z=(e,t,n)=>{let r=a=>{let o=(a+e/60)%6;return 255*(n-n*t*Math.max(0,Math.min(o,4-o,1)))};return[r(5),r(3),r(1)]},J=()=>W(Z(Math.random()*360,.55+Math.random()*.35,.75+Math.random()*.2)),Q=(e,t,n)=>(e-n)/255,tt=(e,t,n)=>{let r=Math.max(e,t,n);return r===0?0:(r-Math.min(e,t,n))/r};function I(e){let t=0,n=0,r=e.pixels;for(let o=0;o<r.length;o+=4)r[o+3]!==0&&(t+=Q(r[o],r[o+1],r[o+2]),n+=tt(r[o],r[o+1],r[o+2]));let a=f*f;return{w:t/a,s:n/a}}function G(e,t,n){let[r,a,o]=Y(e.color),s=k*k,i=Math.max(0,Math.floor(t-k)),c=Math.min(f-1,Math.ceil(t+k)),m=Math.max(0,Math.floor(n-k)),v=Math.min(f-1,Math.ceil(n+k));for(let d=m;d<=v;d++)for(let u=i;u<=c;u++){let b=u+.5-t,w=d+.5-n;if(b*b+w*w>s)continue;let M=(d*f+u)*4;e.pixels[M]=r,e.pixels[M+1]=a,e.pixels[M+2]=o,e.pixels[M+3]=255}}function B(e,t,n,r,a){let o=Math.max(1,Math.ceil(Math.hypot(r-t,a-n)/1));for(let s=0;s<=o;s++){let i=s/o;G(e,t+(r-t)*i,n+(a-n)*i)}}function et(e){let t=Math.random()*Math.PI*2,n=6+Math.random()*8,r=15+Math.random()*20,a=6,o=r+Math.sin(t)*n;for(let s=7;s<=44;s++){let i=r+Math.sin(t+s/7)*n;B(e,a,o,s,i),a=s,o=i}}function R(){let e={color:J(),pixels:new Uint8ClampedArray(f*f*4)};return et(e),e}var E={a:R(),b:R()},x=(e,t)=>{let n=e.querySelector(t);if(!n)throw new Error(`missing ${t}`);return n};function A(e){let t=x(document,`.dp-panel[data-id="${e}"]`),n=x(t,"canvas"),r=n.getContext("2d");if(!r)throw new Error("no 2d context");return{canvas:n,ctx:r,input:x(t,'input[type="color"]'),hex:x(t,".dp-hex"),wOut:x(t,".dp-w"),sOut:x(t,".dp-s"),wFill:x(t,".dp-bar-warm .dp-fill"),sFill:x(t,".dp-bar-sat .dp-fill")}}var D={a:A("a"),b:A("b")},nt=x(document,".dp-plot"),ot=x(document,"#dp-eq"),O=x(document,"#dp-cos"),S=x(document,"#dp-cos-fill"),q=x(document,"#dp-verdict"),g=(e,t=2)=>(Math.abs(e)<.5*10**-t?0 .toFixed(t):e.toFixed(t)).replace("-","\u2212"),N=(e,t=2)=>(e>0&&e>=.5*10**-t?"+":"")+g(e,t);function C(e,t,n,r,a){let o=c=>(c-n)/(r-n)*100,s=o(Math.min(t,a)),i=o(Math.max(t,a));e.style.left=`${s}%`,e.style.width=`${i-s}%`}function j(e,t){let n=E[e],r=D[e];r.ctx.putImageData(new ImageData(new Uint8ClampedArray(n.pixels),f,f),0,0),r.input.value!==n.color&&(r.input.value=n.color),r.hex.textContent=n.color,r.wOut.textContent=N(t.w),r.sOut.textContent=g(t.s),C(r.wFill,t.w,-1,1,0),r.wFill.classList.toggle("dp-is-cool",t.w<0),C(r.sFill,t.s,0,1,0)}var h=240,l=240,z=200,rt=[.05,.1,.2,.3,.5,.75,1,1.5],L=e=>String(+e.toFixed(3)).replace("-","\u2212");function at(...e){let t=Math.max(...e.map(a=>Math.hypot(a.w,a.s))),n=rt.find(a=>t*1.1<=a)??1.5,r=z/n;return{ext:n,sx:a=>h+a*r,sy:a=>l-a*r}}function p(e,t,n){let r=document.createElementNS(X,e);for(let[a,o]of Object.entries(t))r.setAttribute(a,String(o));return n!==void 0&&(r.textContent=n),r}function V(e,t,n,r){let a=p("g",{class:n}),o=e.sx(t.w),s=e.sy(t.s),i=o-h,c=s-l,m=Math.hypot(i,c);if(m<2)return a.append(p("circle",{cx:h,cy:l,r:4,class:"dp-head-fill"})),a;let v=i/m,d=c/m,u=Math.min(12,m*.6),b=o-v*u,w=s-d*u;return a.append(p("line",{x1:h,y1:l,x2:b,y2:w,class:"dp-shaft"}),p("polygon",{points:`${o},${s} ${b-d*u*.45},${w+v*u*.45} ${b+d*u*.45},${w-v*u*.45}`,class:"dp-head-fill"}),p("text",{x:o+v*14,y:s+d*14+5,class:"dp-vlabel","text-anchor":"middle"},r)),a}function st(e,t){let n=[],r=at(e,t),{ext:a,sx:o,sy:s}=r,i=a/2;n.push(p("path",{d:`M ${o(-a)} ${l} A ${z} ${z} 0 0 1 ${o(a)} ${l}`,class:"dp-grid"}));for(let d of[i,a])n.push(p("line",{x1:o(-a),y1:s(d),x2:o(a),y2:s(d),class:"dp-grid"}));for(let d of[-a,-i,i,a])n.push(p("line",{x1:o(d),y1:l,x2:o(d),y2:s(a),class:"dp-grid"}));n.push(p("line",{x1:h-z*1.08,y1:l,x2:h+z*1.08,y2:l,class:"dp-axis"}),p("line",{x1:h,y1:l,x2:h,y2:l-z*1.05,class:"dp-axis"}));for(let d of[-a,-i,i,a])n.push(p("text",{x:o(d),y:l+18,class:"dp-tick","text-anchor":"middle"},L(d)));n.push(p("text",{x:o(-a),y:l+38,class:"dp-axis-label","text-anchor":"start"},"\u2190 cooler"),p("text",{x:h,y:l+38,class:"dp-axis-label","text-anchor":"middle"},"warmth"),p("text",{x:o(a),y:l+38,class:"dp-axis-label","text-anchor":"end"},"warmer \u2192"),p("text",{x:h+6,y:s(a)-8,class:"dp-axis-label"},"saturation"),p("text",{x:o(-a)+4,y:s(i)-5,class:"dp-tick"},L(i)),p("text",{x:o(-a)+4,y:s(a)-5,class:"dp-tick"},L(a)));let c=Math.hypot(e.w,e.s),m=Math.hypot(t.w,t.s),v=e.w*t.w+e.s*t.s;if(c>.001&&m>.001){let d=v/(c*c),u=e.w*d,b=e.s*d,w=Math.max(a,d*c)*1.05,M=d<0?-d*c+a*.08:0;n.push(p("line",{x1:o(-e.w/c*M),y1:s(-e.s/c*M),x2:o(e.w/c*w),y2:s(e.s/c*w),class:"dp-ray"}),p("line",{x1:o(t.w),y1:s(t.s),x2:o(u),y2:s(b),class:"dp-drop"}),p("line",{x1:h,y1:l,x2:o(u),y2:s(b),class:v>=0?"dp-proj":"dp-proj dp-neg"}),p("circle",{cx:o(u),cy:s(b),r:3,class:v>=0?"dp-proj-dot":"dp-proj-dot dp-neg"}));let $=Math.atan2(e.s,e.w),T=Math.atan2(t.s,t.w),y=30,K=T>$?0:1,F=($+T)/2;n.push(p("path",{d:`M ${h+Math.cos($)*y} ${l-Math.sin($)*y} A ${y} ${y} 0 0 ${K} ${h+Math.cos(T)*y} ${l-Math.sin(T)*y}`,class:"dp-arc"}),p("text",{x:h+Math.cos(F)*(y+12),y:l-Math.sin(F)*(y+12)+4,class:"dp-theta","text-anchor":"middle"},"\u03B8"))}n.push(V(r,e,"dp-vec dp-vec-a","A"),V(r,t,"dp-vec dp-vec-b","B")),n.push(p("circle",{cx:h,cy:l,r:2.5,class:"dp-origin"})),nt.replaceChildren(...n)}function it(e,t){let n=e.w*t.w,r=e.s*t.s,a=n+r,o=Math.hypot(e.w,e.s),s=Math.hypot(t.w,t.s);if(ot.innerHTML=`<div class="dp-eq-line"><span class="dp-sym">A\xB7B</span> = <span class="dp-a">${g(e.w)}</span>\xD7<span class="dp-b">${g(t.w)}</span> + <span class="dp-a">${g(e.s)}</span>\xD7<span class="dp-b">${g(t.s)}</span></div><div class="dp-eq-line dp-eq-sub">= <span title="warmth term">${g(n,3)}</span> + <span title="saturation term">${g(r,3)}</span> = <strong>${g(a,3)}</strong></div><div class="dp-eq-line dp-eq-sub">= |A| ${g(o)} \xD7 |B| ${g(s)} \xD7 cos \u03B8</div>`,o<.001||s<.001){O.textContent="\u2014",C(S,0,-1,1,0),q.textContent="Paint on both canvases to compare them: a blank image has a zero vector, so there is no direction to align.";return}let i=Math.max(-1,Math.min(1,a/(o*s))),c=Math.acos(i)*180/Math.PI;O.textContent=`${N(i)}  \xB7  \u03B8 = ${Math.round(c)}\xB0`,C(S,i,-1,1,0),S.classList.toggle("dp-neg",i<0);let m;i>.95?m="Nearly the same direction: the two images have the same colour character.":i>.6?m="Mostly aligned: similar character, with some difference in warmth or vividness.":i>.2?m="Loosely related: the vectors share only part of their direction.":i>-.2?m="Roughly orthogonal: knowing one image tells you little about the other.":m="Opposed: one image leans warm where the other leans cool, so the warmth term pulls the dot product negative.",q.textContent=`${m} The dashed drop shows B\u2019s shadow on A: its signed length \xD7 |A| is the dot product.`}var H=0;function U(){H=0;let e=I(E.a),t=I(E.b);j("a",e),j("b",t),st(e,t),it(e,t)}var P=()=>{H||(H=requestAnimationFrame(U))};function dt(e){let t=D[e],n=null,r=o=>{let s=t.canvas.getBoundingClientRect();return[(o.clientX-s.left)/s.width*f,(o.clientY-s.top)/s.height*f]};t.canvas.addEventListener("pointerdown",o=>{o.button===0&&(o.preventDefault(),t.canvas.setPointerCapture(o.pointerId),n=r(o),G(E[e],n[0],n[1]),P())}),t.canvas.addEventListener("pointermove",o=>{if(!n)return;let s=o.getCoalescedEvents?.()??[o];for(let i of s.length?s:[o]){let c=r(i);B(E[e],n[0],n[1],c[0],c[1]),n=c}P()});let a=()=>{n=null};t.canvas.addEventListener("pointerup",a),t.canvas.addEventListener("pointercancel",a),t.input.addEventListener("input",()=>{E[e].color=t.input.value,P()})}_.forEach(dt);U();})();
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data: blob:; font-src data:; media-src data: blob:; worker-src blob:">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script data-thea-bridge>(() => {
+  const post = (m) => { if (parent !== window) parent.postMessage({ source: 'thea', ...m }, '*'); };
+  const apply = (mode) => { document.documentElement.dataset.theme = mode; document.documentElement.style.colorScheme = mode; };
+  apply(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  addEventListener('message', (e) => { if (e.source === parent && e.data && e.data.type === 'theme') apply(e.data.mode === 'dark' ? 'dark' : 'light'); });
+  addEventListener('error', (e) => post({ type: 'error', message: String(e.message || e.error) }));
+  addEventListener('unhandledrejection', (e) => post({ type: 'error', message: String((e.reason && e.reason.message) || e.reason) }));
+  const size = () => post({ type: 'resize', height: Math.ceil(document.documentElement.getBoundingClientRect().height) });
+  addEventListener('DOMContentLoaded', () => { new ResizeObserver(size).observe(document.documentElement); size(); });
+})();</script>
+<style>html, body { margin: 0; }
+:root { --viz-bg: transparent; --viz-surface: #f4f4f5; --viz-fg: #18181b; --viz-muted: #71717a; --viz-border: #e4e4e7;
+  --viz-accent: #2563eb; --viz-series: #2563eb, #ea580c, #16a34a, #9333ea, #db2777, #0891b2;
+  --viz-font: system-ui, "Noto Sans", "DejaVu Sans", sans-serif; --viz-mono: ui-monospace, "DejaVu Sans Mono", monospace;
+  color: var(--viz-fg); background: var(--viz-bg); font: 15px/1.5 var(--viz-font); }
+:root[data-theme="dark"] { --viz-surface: #27272a; --viz-fg: #f4f4f5; --viz-muted: #a1a1aa; --viz-border: #3f3f46;
+  --viz-accent: #60a5fa; --viz-series: #60a5fa, #fb923c, #4ade80, #c084fc, #f472b6, #22d3ee; }</style>
+<style>:root{--c-e1: #2563eb;--c-e2: #16a34a;--c-v1: #ea580c;--c-v2: #9333ea;--grid: color-mix(in srgb, var(--viz-fg) 22%, transparent);--grid-base: color-mix(in srgb, var(--viz-fg) 7%, transparent)}:root[data-theme=dark]{--c-e1: #60a5fa;--c-e2: #4ade80;--c-v1: #fb923c;--c-v2: #c084fc;--grid: color-mix(in srgb, var(--viz-fg) 24%, transparent);--grid-base: color-mix(in srgb, var(--viz-fg) 8%, transparent)}.eig{display:grid;gap:20px;grid-template-columns:minmax(0,1fr);font-family:var(--viz-font);color:var(--viz-fg)}@media(min-width:680px){.eig{grid-template-columns:minmax(0,1fr) 280px;align-items:start;gap:28px}}.plot-wrap{width:100%;max-width:520px;justify-self:center}.plot{display:block;width:100%;aspect-ratio:1;height:auto;touch-action:none;user-select:none;border-radius:6px;background:color-mix(in srgb,var(--viz-surface) 45%,transparent)}.base{stroke:var(--grid-base);stroke-width:1}.gline{stroke:var(--grid);stroke-width:1}.gline.axis{stroke:color-mix(in srgb,var(--viz-fg) 55%,transparent);stroke-width:1.4}.span{stroke-width:1.4;stroke-dasharray:5 5;opacity:.75}.span.e1{stroke:var(--c-e1)}.span.e2{stroke:var(--c-e2)}.vec,.ghost{stroke-linecap:round}.ghost{opacity:.45;stroke-dasharray:3 3}.ghost.fill{stroke:none;stroke-dasharray:none}.vec.fill,.ghost.fill{stroke:none}line.e1{stroke:var(--c-e1)}line.e2{stroke:var(--c-e2)}line.v1{stroke:var(--c-v1)}line.v2{stroke:var(--c-v2)}.fill.e1{fill:var(--c-e1)}.fill.e2{fill:var(--c-e2)}.fill.v1{fill:var(--c-v1)}.fill.v2{fill:var(--c-v2)}.vlabel{font:600 13px var(--viz-font);text-anchor:middle;dominant-baseline:central;stroke:none}.vlabel.e1{fill:var(--c-e1)}.vlabel.e2{fill:var(--c-e2)}.vlabel.v1{fill:var(--c-v1)}.vlabel.v2{fill:var(--c-v2)}.scrub{display:flex;align-items:center;gap:10px;margin-top:10px}.play{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--viz-border);background:var(--viz-surface);color:var(--viz-fg);display:grid;place-items:center;cursor:pointer;padding:0}.play svg{width:14px;height:14px;fill:currentColor}.play:hover{border-color:var(--viz-accent);color:var(--viz-accent)}.scrub input[type=range]{flex:1;min-width:0;accent-color:var(--viz-accent)}.scrub output{font:13px var(--viz-mono);color:var(--viz-muted);width:3.4em;text-align:right}.panel{display:flex;flex-direction:column;gap:16px;min-width:0}.seg{display:grid;grid-template-columns:1fr 1fr;padding:3px;gap:3px;border-radius:8px;background:var(--viz-surface)}.seg button{font:500 13px var(--viz-font);color:var(--viz-muted);background:transparent;border:none;border-radius:6px;padding:6px 8px;cursor:pointer}.seg button:hover{color:var(--viz-fg)}.seg button.on{color:var(--viz-fg);background:color-mix(in srgb,var(--viz-surface) 30%,white);box-shadow:0 1px 2px #0000001f}:root[data-theme=dark] .seg button.on{background:color-mix(in srgb,var(--viz-surface) 70%,white 12%)}.seg button:focus-visible{outline:2px solid var(--viz-accent);outline-offset:1px}.factor{display:flex;flex-direction:column;gap:4px;font-size:13.5px}.factor-head{display:flex;justify-content:space-between;align-items:baseline}.factor output{font:600 13px var(--viz-mono)}.factor input{width:100%;margin:0;accent-color:var(--viz-accent)}.matrix-row{display:flex;align-items:center;gap:10px}.m-label{font:italic 600 18px var(--viz-font)}.matrix{display:grid;grid-template-columns:repeat(2,3.2em);gap:2px 6px;padding:4px 10px;position:relative}.matrix:before,.matrix:after{content:"";position:absolute;top:0;bottom:0;width:7px;border:1.6px solid var(--viz-fg)}.matrix:before{left:0;border-right:none;border-radius:3px 0 0 3px}.matrix:after{right:0;border-left:none;border-radius:0 3px 3px 0}.matrix span{font:14px/1.6 var(--viz-mono);text-align:center;color:var(--viz-muted)}.matrix span.hot{color:var(--viz-accent);font-weight:600}.reroll{font:13px var(--viz-font);color:var(--viz-fg);background:transparent;border:1px solid var(--viz-border);border-radius:999px;padding:3px 11px;cursor:pointer}.reroll:hover{border-color:var(--viz-accent)}.eigen-summary{font-size:13.5px;line-height:1.5;padding:9px 12px;border-radius:6px;background:var(--viz-surface)}.eigen-summary b{font-family:var(--viz-mono);font-weight:600;font-size:13px}.readout{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}.readout li{display:grid;grid-template-columns:12px auto auto 1fr;align-items:center;column-gap:8px;font-size:13.5px}.readout .sw{width:12px;height:3px;border-radius:2px}.readout .sw.e1{background:var(--c-e1)}.readout .sw.e2{background:var(--c-e2)}.readout .sw.v1{background:var(--c-v1)}.readout .sw.v2{background:var(--c-v2)}.readout .nm{font-weight:600}.readout .tag{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--viz-muted);border:1px solid var(--viz-border);border-radius:4px;padding:0 5px}.readout .tag.is-eigen{color:var(--viz-accent);border-color:color-mix(in srgb,var(--viz-accent) 45%,transparent)}.readout .what{text-align:right;padding-right:2px}.readout .muted{color:var(--viz-muted)}.readout .map{grid-column:2 / -1;font:12px var(--viz-mono);color:var(--viz-muted)}.reroll{align-self:flex-start}
+</style>
+</head>
+<body>
+<div class="eig" id="app">
+  <div class="plot-wrap">
+    <svg class="plot" id="plot" viewBox="0 0 400 400" role="img" aria-label="Grid stretched by the matrix, with two eigenvectors and two other vectors">
+      <defs>
+        <clipPath id="clip"><rect x="0" y="0" width="400" height="400" rx="6"></rect></clipPath>
+      </defs>
+      <g clip-path="url(#clip)">
+        <g id="base-grid"></g>
+        <g id="spans"></g>
+        <g id="grid"></g>
+        <g id="vectors"></g>
+      </g>
+    </svg>
+    <div class="scrub">
+      <button type="button" class="play" id="play" aria-label="Play transformation">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path id="play-icon" d="M4 2.5v11l9-5.5z"></path></svg>
+      </button>
+      <input type="range" id="t" min="0" max="1" step="0.001" value="1" aria-label="Amount of transformation applied">
+      <output id="t-out" for="t">100%</output>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="seg" id="mode" role="radiogroup" aria-label="Direction of the stretch">
+      <button type="button" role="radio" data-mode="horizontal">Horizontal stretch</button>
+      <button type="button" role="radio" data-mode="vertical">Vertical stretch</button>
+    </div>
+
+    <label class="factor">
+      <span class="factor-head"><span>Stretch factor <i>k</i></span><output id="k-out">2</output></span>
+      <input type="range" id="k" min="0.25" max="3" step="0.05" value="2">
+    </label>
+
+    <div class="matrix-row">
+      <span class="m-label">A&nbsp;=</span>
+      <div class="matrix" aria-label="Transformation matrix">
+        <span id="m-a"></span><span id="m-b"></span><span id="m-c"></span><span id="m-d"></span>
+      </div>
+    </div>
+
+    <div class="eigen-summary" id="summary"></div>
+    <ul class="readout" id="readout"></ul>
+    <button type="button" class="reroll" id="reroll">New random vectors</button>
+  </div>
+</div>
+
+<script>"use strict";(()=>{var T={a:1,b:0,c:0,d:1},u=(e,[t,n])=>[e.a*t+e.b*n,e.c*t+e.d*n],H=(e,t,n)=>({a:e.a+(t.a-e.a)*n,b:e.b+(t.b-e.b)*n,c:e.c+(t.c-e.c)*n,d:e.d+(t.d-e.d)*n}),x=([e,t])=>Math.hypot(e,t),b=([e,t],n)=>[e*n,t*n],h=(e,t)=>[t*Math.cos(e),t*Math.sin(e)],V=(e,t)=>Math.atan2(e[0]*t[1]-e[1]*t[0],e[0]*t[0]+e[1]*t[1]),S=(e,t)=>{let n=Math.abs(V(e,t));return Math.min(n,Math.PI-n)},X=e=>{let t=x(e),n=[e[0]/t,e[1]/t];return n[0]<-1e-9||Math.abs(n[0])<=1e-9&&n[1]<0?[-n[0],-n[1]]:n},I=(e,t)=>{let n=[e.a-t,e.b],r=[e.c,e.d-t],a=x(n)>=x(r)?n:r;return X([-a[1],a[0]])};function R(e){let t=e.a+e.d,n=e.a*e.d-e.b*e.c,r=t*t/4-n,a=1e-6*Math.max(1,t*t);if(r<-a)return{kind:"complex",re:t/2,im:Math.sqrt(-r)};if(r<=a){let l=t/2;return Math.abs(e.a-e.d)<1e-6&&Math.abs(e.b)<1e-6&&Math.abs(e.c)<1e-6?{kind:"scalar",value:l}:{kind:"defective",pairs:[{value:l,vector:I(e,l)}]}}let i=Math.sqrt(r),o=t/2+i,c=t/2-i;return{kind:"distinct",pairs:[{value:o,vector:I(e,o)},{value:c,vector:I(e,c)}]}}var Y=3,Z=e=>e.mode==="horizontal"?{a:e.k,b:0,c:0,d:1}:{a:1,b:0,c:0,d:e.k},N=22*Math.PI/180,C=[[1,0],[0,1]],K=(e,t)=>{let n=h(e.theta,1),r=h(e.theta,e.r);return C.every(a=>S(n,a)>=N)&&(t===void 0||S(n,h(t.theta,1))>=N)&&Math.max(Math.abs(r[0]),Math.abs(r[1]))*Y<=4.4};function F(e){for(;;){let t={theta:Math.random()*2*Math.PI,r:1.2+Math.random()*.8};if(K(t,e))return t}}var _=()=>{let e=F();return[e,F(e)]},p={mode:"horizontal",k:2,t:1,probes:_(),playing:!1};function v(e){p={...p,...e},D()}var y=400,P=40,s=([e,t])=>[y/2+e*P,y/2-t*P],d=(e,t=2)=>{let n=Number(e.toFixed(t)).toString();return n==="-0"?"0":n.replace("-","\u2212")},U=e=>Math.round(e*180/Math.PI);function G(e,t,n,r=2.4){let[a,i]=s(e),[o,c]=s(t),l=o-a,k=c-i,g=Math.hypot(l,k);if(g<3)return`<circle class="${n} fill" cx="${o}" cy="${c}" r="3.5"/>`;let f=Math.min(11,g*.45),m=l/g,M=k/g,w=o-m*f,E=c-M*f,$=f*.48;return`<line class="${n}" x1="${a}" y1="${i}" x2="${w+m}" y2="${E+M}" stroke-width="${r}"/><path class="${n} fill" d="M${o},${c}L${w-M*$},${E+m*$}L${w+M*$},${E-m*$}Z"/>`}function W(e,t,n){let r=x(e),a=r>1e-6?b(e,.42/r):[.3,.3],[i,o]=s([e[0]+a[0],e[1]+a[1]]);return`<text class="vlabel ${n}" x="${i}" y="${o}">${t}</text>`}{let e="";for(let t=-5;t<=5;t++){let n=y/2+t*P;e+=`<line class="base" x1="${n}" y1="0" x2="${n}" y2="${y}"/><line class="base" x1="0" y1="${n}" x2="${y}" y2="${n}"/>`}document.getElementById("base-grid").innerHTML=e}var J=document.getElementById("grid"),Q=document.getElementById("spans"),ee=document.getElementById("vectors"),L=document.getElementById("t"),te=document.getElementById("t-out"),B=document.getElementById("k"),ne=document.getElementById("k-out"),j=document.getElementById("play"),re=document.getElementById("play-icon"),ae=document.getElementById("summary"),oe=document.getElementById("readout"),q=[...document.querySelectorAll("#mode button")],ie=["a","b","c","d"].map(e=>[e,document.getElementById(`m-${e}`)]);for(let e of q)e.addEventListener("click",()=>{let t=e.dataset.mode;t!==p.mode&&(v({mode:t}),O(!0))});B.addEventListener("input",()=>{A(),v({k:parseFloat(B.value),t:1})});L.addEventListener("input",()=>{A(),v({t:parseFloat(L.value)})});document.getElementById("reroll").addEventListener("click",()=>v({probes:_()}));var z=0,ce=e=>e<.5?4*e*e*e:1-(-2*e+2)**3/2;function A(){cancelAnimationFrame(z),p.playing&&v({playing:!1})}function O(e){cancelAnimationFrame(z);let t=e||p.t>=.999?0:p.t,n=1400*(1-t),r=performance.now(),a=i=>{let o=Math.min(1,(i-r)/n);v({t:t+(1-t)*ce(o),playing:o<1}),o<1&&(z=requestAnimationFrame(a))};v({t,playing:!0}),z=requestAnimationFrame(a)}j.addEventListener("click",()=>p.playing?A():O(!1));function se(e){let t=R(e);if(t.kind==="distinct"){let[r,a]=t.pairs;return Math.abs(r.vector[0])>=Math.abs(a.vector[0])?[r,a]:[a,r]}let n=t.kind==="scalar"?t.value:1;return[{value:n,vector:[1,0]},{value:n,vector:[0,1]}]}function le(e,t){let[r,a]=se(e),i=Math.abs(t.k-1)<1e-9;return[{key:"e1",name:"e\u2081",v:b(r.vector,1.5),value:r.value},{key:"e2",name:"e\u2082",v:b(a.vector,1.5),value:a.value},...t.probes.map((o,c)=>({key:`v${c+1}`,name:`v${"\u2081\u2082"[c]}`,v:h(o.theta,o.r),value:i?1:void 0}))]}function de(e){let t="";for(let r=-16;r<=16;r++){let a=r===0?"gline axis":"gline",[i,o]=s(u(e,[r,-16])),[c,l]=s(u(e,[r,16])),[k,g]=s(u(e,[-16,r])),[f,m]=s(u(e,[16,r]));t+=`<line class="${a}" x1="${i}" y1="${o}" x2="${c}" y2="${l}"/>`,t+=`<line class="${a}" x1="${k}" y1="${g}" x2="${f}" y2="${m}"/>`}J.innerHTML=t}function pe(){Q.innerHTML=C.map((e,t)=>{let[n,r]=s(b(e,-10)),[a,i]=s(b(e,10));return`<line class="span e${t+1}" x1="${n}" y1="${r}" x2="${a}" y2="${i}"/>`}).join("")}function ue(e,t){let n="";for(let r of e)n+=G([0,0],r.v,`ghost ${r.key}`,1.6);for(let r of e){let a=u(t,r.v);n+=G([0,0],a,`vec ${r.key}`),n+=W(a,r.name,r.key)}ee.innerHTML=n}function ve(e){let t=e.mode==="horizontal"?"x":"y",n=e.mode==="horizontal"?"y":"x",r=e.k>1?"stretched":"squeezed";ae.innerHTML=Math.abs(e.k-1)<1e-9?"With <b>k = 1</b> nothing moves: <em>every</em> vector is an eigenvector with <b>\u03BB = 1</b>.":`The ${t}-direction is ${r} by <b>\u03BB = ${d(e.k)}</b>, the ${n}-direction keeps <b>\u03BB = 1</b>. Vectors on the dashed axes only change length; every other vector also turns.`}function ge(e,t){oe.innerHTML=e.map(n=>{let r=u(t,n.v),a=n.value!==void 0,i;if(a){let o=n.value??1,c=Math.abs(o-1)<1e-9?"unchanged":o>1?"longer":"shorter";i=`A${n.name} = ${d(o)}\xB7${n.name} <span class="muted">\xB7 ${c}</span>`}else{let o=U(V(n.v,r));i=`turned ${Math.abs(o)}\xB0 ${o>=0?"left":"right"}`}return`<li>
+        <span class="sw ${n.key}"></span>
+        <span class="nm">${n.name}</span>
+        <span class="tag${a?" is-eigen":""}">${a?"eigen":"not eigen"}</span>
+        <span class="what">${i}</span>
+        <span class="map">(${d(n.v[0])}, ${d(n.v[1])}) \u2192 (${d(r[0])}, ${d(r[1])})</span>
+      </li>`}).join("")}function me(e,t){for(let n of q){let r=n.dataset.mode===e.mode;n.classList.toggle("on",r),n.setAttribute("aria-checked",String(r))}B.value=String(e.k),ne.textContent=d(e.k);for(let[n,r]of ie)r.textContent=d(t[n]),r.classList.toggle("hot",e.mode==="horizontal"&&n==="a"||e.mode==="vertical"&&n==="d");L.value=String(e.t),te.textContent=`${Math.round(e.t*100)}%`,re.setAttribute("d",e.playing?"M4 2.5h3v11H4zM9 2.5h3v11H9z":"M4 2.5v11l9-5.5z"),j.setAttribute("aria-label",e.playing?"Pause":"Play transformation")}function D(){let e=p,t=Z(e),n=H(T,t,e.t),r=le(t,e);de(n),ue(r,n),ve(e),ge(r,t),me(e,t)}pe();D();})();
+</script>
+</body>
+</html>

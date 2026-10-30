@@ -1,4 +1,18 @@
 dsl-crud site export
+files/thea/deft-panda-1/index.html
+files/thea/dusty-thistle-3/index.html
+files/thea/frosty-hill-1/index.html
+files/thea/hardy-lynx-2/index.html
+files/thea/lucid-stone-3/index.html
+files/thea/mighty-hawk-2/index.html
+files/thea/polar-canyon-2/index.html
+files/thea/shiny-heron-2/index.html
+files/thea/stellar-moose-1/index.html
+files/thea/subtle-salmon-1/index.html
+files/thea/velvet-crane-1/index.html
+files/thea/velvet-eagle-1/index.html
+files/thea/windy-comet-1/index.html
+files/thea/witty-lantern-2/index.html
 glossary/aboutness.html
 glossary/hedonic-treadmill.html
 index.html
@@ -6,3 +20,4 @@ understand/cnn.html
 understand/dft.html
 understand/it-sec/aes.html
 understand/it-sec/index.html
+understand/software/architecture-hexagonal.html

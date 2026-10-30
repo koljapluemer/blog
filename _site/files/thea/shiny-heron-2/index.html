@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data: blob:; font-src data:; media-src data: blob:; worker-src blob:">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script data-thea-bridge>(() => {
+  const post = (m) => { if (parent !== window) parent.postMessage({ source: 'thea', ...m }, '*'); };
+  const apply = (mode) => { document.documentElement.dataset.theme = mode; document.documentElement.style.colorScheme = mode; };
+  apply(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  addEventListener('message', (e) => { if (e.source === parent && e.data && e.data.type === 'theme') apply(e.data.mode === 'dark' ? 'dark' : 'light'); });
+  addEventListener('error', (e) => post({ type: 'error', message: String(e.message || e.error) }));
+  addEventListener('unhandledrejection', (e) => post({ type: 'error', message: String((e.reason && e.reason.message) || e.reason) }));
+  const size = () => post({ type: 'resize', height: Math.ceil(document.documentElement.getBoundingClientRect().height) });
+  addEventListener('DOMContentLoaded', () => { new ResizeObserver(size).observe(document.documentElement); size(); });
+})();</script>
+<style>html, body { margin: 0; }
+:root { --viz-bg: transparent; --viz-surface: #f4f4f5; --viz-fg: #18181b; --viz-muted: #71717a; --viz-border: #e4e4e7;
+  --viz-accent: #2563eb; --viz-series: #2563eb, #ea580c, #16a34a, #9333ea, #db2777, #0891b2;
+  --viz-font: system-ui, "Noto Sans", "DejaVu Sans", sans-serif; --viz-mono: ui-monospace, "DejaVu Sans Mono", monospace;
+  color: var(--viz-fg); background: var(--viz-bg); font: 15px/1.5 var(--viz-font); }
+:root[data-theme="dark"] { --viz-surface: #27272a; --viz-fg: #f4f4f5; --viz-muted: #a1a1aa; --viz-border: #3f3f46;
+  --viz-accent: #60a5fa; --viz-series: #60a5fa, #fb923c, #4ade80, #c084fc, #f472b6, #22d3ee; }</style>
+<style>:root{--s2: #ea580c}:root[data-theme=dark]{--s2: #fb923c}.wp{padding:.5rem 0 .75rem;display:flex;flex-direction:column;gap:.9rem;font-size:14px}.wp i{font-family:Georgia,Times New Roman,serif}.wp-controls{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:.6rem 1.25rem;align-items:end}.wp-buttons{display:flex;gap:.4rem}.wp-btn{font:inherit;font-size:13px;padding:.35rem .8rem;border-radius:6px;cursor:pointer;border:1px solid var(--viz-border);background:transparent;color:var(--viz-fg);min-width:4.6rem}.wp-btn:hover{background:var(--viz-surface)}.wp-primary{background:var(--viz-accent);border-color:var(--viz-accent);color:#fff}:root[data-theme=dark] .wp-primary{color:#0b1220}.wp-primary:hover{background:var(--viz-accent);filter:brightness(1.08)}.wp-btn:focus-visible,.wp-chip:focus-visible,.wp-seg button:focus-visible,.wp input:focus-visible{outline:2px solid var(--viz-accent);outline-offset:2px}.wp-slider{display:flex;flex-direction:column;gap:.15rem;min-width:0}.wp-lab{color:var(--viz-muted);font-size:12.5px;white-space:nowrap}.wp-lab output{color:var(--viz-fg);font-family:var(--viz-mono);font-size:12px;margin-left:.3rem}.wp input[type=range]{width:100%;margin:0;accent-color:var(--viz-accent)}.wp-plot{display:flex;flex-direction:column;gap:.4rem}#plot{width:100%;aspect-ratio:2.3 / 1;min-height:190px;display:block;touch-action:none;cursor:ew-resize}.wp-legend{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem .5rem}.wp-chip{font:inherit;font-size:12.5px;display:inline-flex;align-items:center;gap:.35rem;cursor:pointer;padding:.12rem .55rem;border-radius:999px;border:1px solid var(--viz-border);background:transparent;color:var(--viz-muted)}.wp-chip.on{color:var(--viz-fg);background:var(--viz-surface)}.wp-chip:not(.on) .sw{opacity:.3}.sw{width:14px;height:3px;border-radius:2px;display:inline-block}.sw-env{height:9px;background:color-mix(in srgb,var(--viz-accent) 28%,transparent);border:1px solid color-mix(in srgb,var(--viz-accent) 55%,transparent)}.sw-re{background:var(--viz-accent)}.sw-im{background:var(--s2)}.wp-grid{display:flex;align-items:center;gap:.5rem;margin-left:auto}.wp-seg{display:inline-flex;border:1px solid var(--viz-border);border-radius:6px;overflow:hidden}.wp-seg button{font:inherit;font-family:var(--viz-mono);font-size:12px;padding:.25rem .55rem;cursor:pointer;border:0;border-left:1px solid var(--viz-border);background:transparent;color:var(--viz-muted)}.wp-seg button:first-child{border-left:0}.wp-seg button.on{background:var(--viz-accent);color:#fff}:root[data-theme=dark] .wp-seg button.on{color:#0b1220}@media(max-width:640px){.wp-controls{grid-template-columns:repeat(3,minmax(0,1fr))}.wp-buttons{grid-column:1 / -1}.wp-grid{margin-left:0;width:100%;margin-top:.2rem}}@media(max-width:460px){.wp-controls{grid-template-columns:1fr}.wp-seg button{padding:.25rem .4rem}}
+</style>
+</head>
+<body>
+<div id="app" class="wp">
+  <div class="wp-controls">
+    <div class="wp-buttons">
+      <button type="button" id="play" class="wp-btn wp-primary" aria-label="Pause">Pause</button>
+      <button type="button" id="reset" class="wp-btn">Reset</button>
+    </div>
+    <label class="wp-slider">
+      <span class="wp-lab">Momentum <i>k</i>₀ <output id="k0-out"></output></span>
+      <input id="k0" type="range" min="-80" max="80" step="1" value="40">
+    </label>
+    <label class="wp-slider">
+      <span class="wp-lab">Width σ <output id="sigma-out"></output></span>
+      <input id="sigma" type="range" min="0.02" max="0.12" step="0.005" value="0.05">
+    </label>
+    <label class="wp-slider">
+      <span class="wp-lab">Speed <output id="speed-out"></output></span>
+      <input id="speed" type="range" min="0" max="6" step="1" value="2">
+    </label>
+  </div>
+
+  <div class="wp-plot">
+    <canvas id="plot" aria-label="Wave function in a box"></canvas>
+    <div class="wp-legend">
+      <button type="button" class="wp-chip on" data-series="env"><span class="sw sw-env"></span>|ψ|</button>
+      <button type="button" class="wp-chip on" data-series="re"><span class="sw sw-re"></span>Re ψ</button>
+      <button type="button" class="wp-chip on" data-series="im"><span class="sw sw-im"></span>Im ψ</button>
+      <div class="wp-grid">
+        <span class="wp-lab">Grid points <i>N</i></span>
+        <div class="wp-seg" id="grid" role="group" aria-label="Grid points">
+          <button type="button" data-n="32">32</button>
+          <button type="button" data-n="64">64</button>
+          <button type="button" data-n="128">128</button>
+          <button type="button" data-n="256">256</button>
+          <button type="button" data-n="512" class="on">512</button>
+          <button type="button" data-n="1024">1024</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>"use strict";(()=>{var W=1e-5,Z=1e-4,V=[.25,.5,1,2,4,8,16],b=e=>document.getElementById(e),v=b("plot"),n=v.getContext("2d"),S=b("play"),N=b("k0"),D=b("sigma"),q=b("speed"),a={N:512,x0:.3,k0:40,sigma:.05,speed:2,playing:!matchMedia("(prefers-reduced-motion: reduce)").matches,ampMax:1,show:{env:!0,re:!0,im:!0}},g=new Float64Array(0),f=new Float64Array(0),z=new Float64Array(0),k=new Float64Array(0),C=new Float64Array(0),B=new Float64Array(0),F=new Float64Array(0),I=new Float64Array(0),L=0;function X(){let e=a.N-1,r=1/a.N;L=W/(4*r*r),g=new Float64Array(e),f=new Float64Array(e),z=new Float64Array(e),k=new Float64Array(e),C=new Float64Array(e),B=new Float64Array(e),F=new Float64Array(e),I=new Float64Array(e);let l=1,m=2*L,s=0,c=-L,t=0,p=0;for(let d=0;d<e;d++){let o=l-(s*t-c*p),u=m-(s*p+c*t),w=o*o+u*u,i=o/w,A=-u/w;F[d]=i,I[d]=A,t=s*i-c*A,p=s*A+c*i,C[d]=t,B[d]=p}}function j(){let{N:e,x0:r,k0:l,sigma:m}=a,s=e-1,c=1/e,t=0;for(let o=0;o<s;o++){let u=(o+1)*c,w=Math.exp(-((u-r)**2)/(4*m*m));g[o]=w*Math.cos(l*u),f[o]=w*Math.sin(l*u),t+=w*w*c}let p=1/Math.sqrt(t),d=0;for(let o=0;o<s;o++)g[o]*=p,f[o]*=p,d=Math.max(d,Math.hypot(g[o],f[o]));a.ampMax=d*1.12}function ee(){let e=g.length,r=L;for(let t=0;t<e;t++){let p=t>0?g[t-1]:0,d=t>0?f[t-1]:0,o=t<e-1?g[t+1]:0,u=t<e-1?f[t+1]:0,w=p+o,i=d+u;z[t]=g[t]+2*r*f[t]-r*i,k[t]=f[t]-2*r*g[t]+r*w}let l=0,m=0;for(let t=0;t<e;t++){let p=z[t]-r*m,d=k[t]+r*l;l=p*F[t]-d*I[t],m=p*I[t]+d*F[t],z[t]=l,k[t]=m}let s=z[e-1],c=k[e-1];g[e-1]=s,f[e-1]=c;for(let t=e-2;t>=0;t--){let p=C[t],d=B[t],o=z[t]-(p*s-d*c),u=k[t]-(p*c+d*s);g[t]=o,f[t]=u,s=o,c=u}}var h={fg:"",muted:"",border:"",accent:"",s2:"",surface:""};function G(){let e=getComputedStyle(document.documentElement),r=l=>e.getPropertyValue(l).trim();h={fg:r("--viz-fg"),muted:r("--viz-muted"),border:r("--viz-border"),accent:r("--viz-accent"),s2:r("--s2"),surface:r("--viz-surface")}}G();new MutationObserver(()=>{G(),E()}).observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme"]});var M=0,x=0,y={l:14,r:14,t:10,b:24};function J(){let e=v.getBoundingClientRect(),r=window.devicePixelRatio||1;M=e.width,x=e.height,v.width=Math.round(M*r),v.height=Math.round(x*r),n.setTransform(r,0,0,r,0,0),E()}function E(){if(!M||!x)return;let{N:e}=a,r=g.length,l=y.l,m=M-y.r,s=y.t,c=x-y.b,t=(s+c)/2,p=(c-s)/2/a.ampMax,d=i=>l+i*(m-l);n.clearRect(0,0,M,x),n.fillStyle=h.surface,n.globalAlpha=.55,n.fillRect(l,s,m-l,c-s),n.globalAlpha=1,n.strokeStyle=h.border,n.lineWidth=1,n.setLineDash([3,4]),n.beginPath(),n.moveTo(l,t),n.lineTo(m,t),n.stroke(),n.setLineDash([]);let o=i=>d(i/e);if(a.show.env){n.beginPath(),n.moveTo(o(0),t);for(let i=0;i<r;i++)n.lineTo(o(i+1),t-Math.hypot(g[i],f[i])*p);n.lineTo(o(e),t);for(let i=r-1;i>=0;i--)n.lineTo(o(i+1),t+Math.hypot(g[i],f[i])*p);n.closePath(),n.fillStyle=h.accent,n.globalAlpha=.16,n.fill(),n.globalAlpha=.5,n.strokeStyle=h.accent,n.lineWidth=1,n.stroke(),n.globalAlpha=1}let u=(i,A,Y)=>{n.beginPath(),n.moveTo(o(0),t);for(let T=0;T<r;T++)n.lineTo(o(T+1),t-i[T]*p);n.lineTo(o(e),t),n.strokeStyle=A,n.lineWidth=Y,n.lineJoin="round",n.stroke()};if(a.show.im&&u(f,h.s2,1.2),a.show.re&&u(g,h.accent,1.5),(m-l)/e>=6){n.fillStyle=h.muted;for(let i=0;i<=e;i++)n.fillRect(o(i)-.75,c-4,1.5,4)}n.fillStyle=h.fg,n.fillRect(l-3,s,3,c-s+1),n.fillRect(m,s,3,c-s+1),n.fillRect(l-3,c,m-l+6,1),n.fillStyle=h.muted,n.font="11px "+getComputedStyle(document.documentElement).getPropertyValue("--viz-font"),n.textBaseline="alphabetic",n.textAlign="left",n.fillText("0",l-3,x-6),n.textAlign="right",n.fillText("L",m+3,x-6),n.textAlign="center",n.fillText("x",(l+m)/2,x-6)}var _=!0;new IntersectionObserver(e=>{_=e[0].isIntersecting}).observe(v);function $(){if(a.playing&&_){let e=Math.round(Z*V[a.speed]/W);for(let r=0;r<e;r++)ee();E()}requestAnimationFrame($)}function K(e){a.playing=e,S.textContent=e?"Pause":"Play",S.setAttribute("aria-label",e?"Pause":"Play")}function R(){j(),E()}function P(){b("k0-out").textContent=String(a.k0),b("sigma-out").textContent=a.sigma.toFixed(3),b("speed-out").textContent=V[a.speed]+"\xD7"}S.addEventListener("click",()=>K(!a.playing));b("reset").addEventListener("click",R);N.addEventListener("input",()=>{a.k0=+N.value,P(),R()});D.addEventListener("input",()=>{a.sigma=+D.value,P(),R()});q.addEventListener("input",()=>{a.speed=+q.value,P()});document.querySelectorAll(".wp-chip").forEach(e=>{e.setAttribute("aria-pressed","true"),e.addEventListener("click",()=>{let r=e.dataset.series;a.show[r]=!a.show[r],e.classList.toggle("on",a.show[r]),e.setAttribute("aria-pressed",String(a.show[r])),E()})});var O=document.querySelectorAll("#grid button");O.forEach(e=>{e.addEventListener("click",()=>{a.N=+e.dataset.n,O.forEach(r=>r.classList.toggle("on",r===e)),X(),R()})});var H=!1;function Q(e){let r=v.getBoundingClientRect(),l=(e.clientX-r.left-y.l)/(r.width-y.l-y.r);a.x0=Math.min(.92,Math.max(.08,l)),R()}v.addEventListener("pointerdown",e=>{H=!0,v.setPointerCapture(e.pointerId),Q(e)});v.addEventListener("pointermove",e=>{H&&Q(e)});var U=()=>{H=!1};v.addEventListener("pointerup",U);v.addEventListener("pointercancel",U);P();K(a.playing);X();j();new ResizeObserver(J).observe(v);J();requestAnimationFrame($);})();
+</script>
+</body>
+</html>

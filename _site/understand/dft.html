@@ -3,36 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>Density Functional Theory</title>
 <style>
-  body { max-width: 42rem; margin: 2rem auto; padding: 0 1rem; font: 1.05rem/1.6 system-ui, sans-serif; }
-  img, video { max-width: 100%; }
-  math { font-family: math; }
-  .missing { color: #ba0000; cursor: not-allowed; text-decoration: none; }
+  body { max-width: 40rem; margin: 2rem auto; padding: 0 1rem; font: 1.05rem/1.6 system-ui, sans-serif; }
+  h1, h2, h3 { line-height: 1.25; }
+  a { color: inherit; }
+  .missing { color: #b42318; cursor: not-allowed; text-decoration: none; }
+  img, video { max-width: 100%; height: auto; }
+  pre { overflow-x: auto; padding: .75rem 1rem; border-radius: 6px; background: rgba(127, 127, 127, .12); }
+  code { font-size: .9em; }
+  pre code { font-size: inherit; }
+  blockquote { margin-left: 0; padding-left: 1rem; border-left: 3px solid rgba(127, 127, 127, .4); }
+  table { border-collapse: collapse; }
+  th, td { padding: .3rem .6rem; border-bottom: 1px solid rgba(127, 127, 127, .3); }
+  .viz { margin: 1.5rem 0; }
+  .viz iframe { display: block; width: 100%; border: 0; }
+  .viz summary { cursor: pointer; font-size: .85rem; opacity: .6; }
+  .viz details pre { margin: .4rem 0 0; white-space: pre-wrap; font: .85rem/1.5 system-ui, sans-serif; }
 </style>
 </head>
 <body>
-<!-- <nav><a href="../index.html">Home</a></nav> -->
+<nav><a href="../index.html">Home</a></nav>
 <main>
 <h1>Trying to Understand <em>Density Functional Theory</em></h1>
 <p>Let's get started.<br />
 Apparently, at the core of the problem is some explosion of state when you accurately want to model all the variables in a non-trivial amount of atoms. OK, cool.</p>
-<p>Apparently, at core, there is the Schrödinger equation, which I currently 0% understand. Let's attack it.</p>
-<pre><code class="language-thea">
-Visualize the Schrödinger equation $$\hat{H}\Psi = E\Psi$$. Load a math tex library. Allow the user to hover parts of it, and get tool tip annotations. Assume highschool chemistry knowledge.
-
-As a base, show only the aformentioned formular (not a second row with sub-formulas).
-Make sure to get state clean, and prevent errors such as &quot;ResizeObserverLoop completed with undelivered notifications&quot;. Web search how to do a visualization if it helps.
-
-</code></pre>
+<p>At the core of that appears to be the Schrödinger equation, which I currently 0% understand. Let's attack it.</p>
+<figure class="viz"><iframe src="../files/thea/witty-lantern-2/index.html" sandbox="allow-scripts" title="Visualize the Schrödinger equation &#36;&#36;&#92;hat{H}&#92;Psi = E&#92;Psi&#36;&#36;. Load a math tex library. Allow the user to hover parts of it, and get tool tip annotations. Assume highschool chemistry knowledge." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize the Schrödinger equation &#36;&#36;&#92;hat{H}&#92;Psi = E&#92;Psi&#36;&#36;. Load a math tex library. Allow the user to hover parts of it, and get tool tip annotations. Assume highschool chemistry knowledge.&#10;&#10;As a base, show only the aformentioned formular (not a second row with sub-formulas).&#10;Make sure to get state clean, and prevent errors such as &quot;ResizeObserverLoop completed with undelivered notifications&quot;. Web search how to do a visualization if it helps.</pre></details></figcaption></figure>
 <p>OK. So according to what I suspect is a gross simplification, Gemini tells me that Schrödinger's describes how particle behavior on atomic scale, just as as Newton's second law describes movement on the macroscopic scale. It also mentions that the behavior is &quot;wave-like&quot;.</p>
 <p>Apparently, what we see above is the <em>famous, compact, big-picture</em> equation, and there is also an &quot;expanded&quot; &quot;time-independent Schrödinger equation&quot; (here in its &quot;1D&quot; form):</p>
-<pre><code class="language-thea">
-Visualize the long-form Schrödinger equation $$E\Psi(x) = -\frac{\hbar^2}{2m} \frac{d^2\Psi(x)}{dx^2} + V(x)\Psi(x)$$. Load a math tex library. Allow the user to hover parts of it, and get tool tip annotations. Assume highschool chemistry knowledge.
-Use only the aformentioned formula as a base visual element (ie do not additional rows or info cards, except on hover or interaction).
-Makes sure you model this with clean state, following recommended patterns.
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/windy-comet-1/index.html" sandbox="allow-scripts" title="Visualize the long-form Schrödinger equation &#36;&#36;E&#92;Psi(x) = -&#92;frac{&#92;hbar^2}{2m} &#92;frac{d^2&#92;Psi(x)}{dx^2} + V(x)&#92;Psi(x)&#36;&#36;. Load a math tex library. Allow the user to hover parts of it, and get tool tip annotations. Assume highschool chemistry knowledge." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize the long-form Schrödinger equation &#36;&#36;E&#92;Psi(x) = -&#92;frac{&#92;hbar^2}{2m} &#92;frac{d^2&#92;Psi(x)}{dx^2} + V(x)&#92;Psi(x)&#36;&#36;. Load a math tex library. Allow the user to hover parts of it, and get tool tip annotations. Assume highschool chemistry knowledge.&#10;Use only the aformentioned formula as a base visual element (ie do not additional rows or info cards, except on hover or interaction).&#10;Makes sure you model this with clean state, following recommended patterns.</pre></details></figcaption></figure>
 <h2>Excursion: Eigenvalues, apparently</h2>
 <p>I've also read that the short version is an &quot;eigenvalue&quot; equation. So what's that?</p>
 <p>This has been surprisingly hard to understand.<br />
@@ -41,15 +42,7 @@ Imagine arrows (vectors, if you will) painted on a rubber sheet. If you stretch 
 <p><em>If you apply the transformation A to an <strong>eigenvector</strong>, this has the same effect as simply scaling that arrow by the single number which is the <strong>eigenvalue</strong></em>.</p>
 <p>Thus, if I understand correctly, a given transformation yields a set of eigenvectors for which we can simply calculate an eigenvalue.</p>
 <p>I'm sure we can visualize this...</p>
-<pre><code class="language-thea">Visualize the basic visual intuition for eigenvalues and eigenvectors (2D vector grid).
-
-Let the user switch between a horizontal stretch with adjustable stretching with no vertical stretching, and vertical stretching with no horizontal stretching.
-
-Show 4 vectors and how they are transformed, two being eigenvectors (if they exist), two being random non-eigenvectors.
-
-Use appropriate libraries, model state cleanly.
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/hardy-lynx-2/index.html" sandbox="allow-scripts" title="Visualize the basic visual intuition for eigenvalues and eigenvectors (2D vector grid)." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize the basic visual intuition for eigenvalues and eigenvectors (2D vector grid).&#10;&#10;Let the user switch between a horizontal stretch with adjustable stretching with no vertical stretching, and vertical stretching with no horizontal stretching.&#10;&#10;Show 4 vectors and how they are transformed, two being eigenvectors (if they exist), two being random non-eigenvectors.&#10;&#10;Use appropriate libraries, model state cleanly.</pre></details></figcaption></figure>
 <p>...but so what?</p>
 <p>I'm not sure if this is relevant to DFT at all, but it turns out eigenvalues are used in Google's original page rank as well as in facial recognition (and in bridges vibrating) and I have no intuition how this actually <em>works</em>. Let's try to get at least one of these.</p>
 <p>Ok, I think I got an intuition on the PageRank stuff:</p>
@@ -70,68 +63,11 @@ Use appropriate libraries, model state cleanly.
 </ol>
 <p>That's already weird to visualize, but OK. I guess our normal sheet was in infinite space for vectors to live on, and we now randomly decide that our vectors are traffic distributions.</p>
 <p>But my imagination fails me on trying to map the transformation matrix on this. Let's try to get this scenario visualized.</p>
-<pre><code class="language-thea">
-Make a visualization to get an intuition of the base setup of the original PageRank setup. The final goal is to understand what eigenvectors do there but for now this out of scope.
-Visualize the following as a graph:
-We have three websites, let's call them a.com, b.org and c.io. 
-Each has a probability that people will go there to another site each time step. 
-Animate visitors as dots, moving from a start position to a random website, and then according to the statistical rules.
-Everyone moves rythmically, at set timesteps.
-Graph the distribution of people over all websites (stacked bar chart, relative distribution).
-
-Model state cleanly and use appropriate library.
-Allow users to pause/play the animation, and to factory reset to start state.
-
-Use the following numbers:
-a to b: .1
-a to c: .8
-a to a: .1
-
-b to a: .1
-b to b: .5
-b to c: .4
-
-c to a: .1
-c to b: .5
-c to c: .4
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/dusty-thistle-3/index.html" sandbox="allow-scripts" title="Make a visualization to get an intuition of the base setup of the original PageRank setup. The final goal is to understand what eigenvectors do there but for now this out of scope." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Make a visualization to get an intuition of the base setup of the original PageRank setup. The final goal is to understand what eigenvectors do there but for now this out of scope.&#10;Visualize the following as a graph:&#10;We have three websites, let&#x27;s call them a.com, b.org and c.io. &#10;Each has a probability that people will go there to another site each time step. &#10;Animate visitors as dots, moving from a start position to a random website, and then according to the statistical rules.&#10;Everyone moves rythmically, at set timesteps.&#10;Graph the distribution of people over all websites (stacked bar chart, relative distribution).&#10;&#10;Model state cleanly and use appropriate library.&#10;Allow users to pause/play the animation, and to factory reset to start state.&#10;&#10;Use the following numbers:&#10;a to b: .1&#10;a to c: .8&#10;a to a: .1&#10;&#10;b to a: .1&#10;b to b: .5&#10;b to c: .4&#10;&#10;c to a: .1&#10;c to b: .5&#10;c to c: .4</pre></details></figcaption></figure>
 <p>OK. I think we may be getting somewhere.<br />
 As you can probably see (it's randomized stuff, so I can't really know what you see) the distribution of people seems to settle: <code>a.com</code> does not have good retention, so eventually, on average, it hosts only a low percentage of people. But the numnbers keep fluctuating, because we have a random number of individuals actually moving around.<br />
 Let's try to build the same thing deterministically, assuming billions of people, so we can think in non-statistical percentages.</p>
-<pre><code class="language-thea">
-Make a visualization to get an intuition of the base setup of the original PageRank setup. The final goal is to understand what eigenvectors do there but for now this out of scope.
-Visualize the following as a graph:
-We have three websites, let's call them a.com, b.org and c.io.
-In a previous visualization, we modelled stochastical behavior of simulated individuals
-Each have a random probability that people will go there to another site each time step. 
-
-Now we want to do the same thing with pure percentages, getting rid of random noise. 
-Thus, visualize each node as a pie chart, showing the % of overall users are currently on this page. The users get redistributed according to the percentage rules every time step.
-
-Everyone moves rythmically, at set timesteps.
-
-Briefly add a &quot;heartbeat&quot; animation to the pie chart notes every time the number changes at the time steps.
-Graph the distribution of people over all websites (stacked bar chart, relative distribution).
-
-
-Model state cleanly and use appropriate library.
-Allow users to pause/play the animation, and to factory reset to randomized start state. Prevent &quot;ResizeObserverLoop completed with undelivered notifications errors&quot;.
-
-Use the following numbers:
-a to b: .1
-a to c: .8
-a to a: .1
-
-b to a: .1
-b to b: .5
-b to c: .4
-
-c to a: .1
-c to b: .5
-c to c: .4
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/subtle-salmon-1/index.html" sandbox="allow-scripts" title="Make a visualization to get an intuition of the base setup of the original PageRank setup. The final goal is to understand what eigenvectors do there but for now this out of scope." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Make a visualization to get an intuition of the base setup of the original PageRank setup. The final goal is to understand what eigenvectors do there but for now this out of scope.&#10;Visualize the following as a graph:&#10;We have three websites, let&#x27;s call them a.com, b.org and c.io.&#10;In a previous visualization, we modelled stochastical behavior of simulated individuals&#10;Each have a random probability that people will go there to another site each time step. &#10;&#10;Now we want to do the same thing with pure percentages, getting rid of random noise. &#10;Thus, visualize each node as a pie chart, showing the % of overall users are currently on this page. The users get redistributed according to the percentage rules every time step.&#10;&#10;Everyone moves rythmically, at set timesteps.&#10;&#10;Briefly add a &quot;heartbeat&quot; animation to the pie chart notes every time the number changes at the time steps.&#10;Graph the distribution of people over all websites (stacked bar chart, relative distribution).&#10;&#10;Model state cleanly and use appropriate library.&#10;Allow users to pause/play the animation, and to factory reset to randomized start state.&#10;&#10;Use the following numbers:&#10;a to b: .1&#10;a to c: .8&#10;a to a: .1&#10;&#10;b to a: .3&#10;b to b: .3&#10;b to c: .4&#10;&#10;c to a: .2&#10;c to b: .5&#10;c to c: .3</pre></details></figcaption></figure>
 <p>We can now see this system settle, very clearly. It takes a varying but small number of steps (I believe depending on the random initial distribution), then the percentage of users per website ceases fluctuating.</p>
 <p>We are now getting close to the relevant math, but we quickly have to get back to the actual use case: We are the early Google PageRank team, and we want to know which websites are important, to show them to people more often. In our model, we can clearly see which websites have how many visitors. Why aren't we just using these data? Answer, as I understand it:</p>
 <ol>
@@ -149,7 +85,7 @@ c to c: .4
 <p>...which stand for the percentage of people on <code>a.com</code>, <code>b.org</code> and <code>c.io</code>, respectively.</p>
 <p>Its eigenvalue is 1, which means that &quot;nothing moves&quot;.</p>
 <p>I think I got the scenario here, but I think I still want to visualize the eigenvector part of it. In my head, this still isn't connected very strongly to the rubber sheet. Gemini keeps telling me about a Probability Triangle that is actually being stretched, but I can't get a grip on what it signifies. I feel like we're drifiting very far here, so let's try to move back towards DFT for now.</p>
-<p>== Trying to get eigenvalues and Schrödinger to meet</p>
+<h2>Trying to get eigenvalues and Schrödinger to meet</h2>
 <p>So where do eigenvalues and Schrödinger meet?</p>
 <p>OK so apparently &quot;eigenvalue equation&quot; is a general term, describing a class of equations in linear algebra, in general.</p>
 <p>They always mean that you apply a matrix to a vector, and you get back the same vector, multiplied by a scaling factor (which is the eigenvalue). PageRank notwithstanding, this gives me almost nothing understanding-wise.</p>
@@ -178,45 +114,29 @@ Going back to PageRank, we would (I think/Gemini says) just state a very prototy
 We are somehow doing DFT because Schrödinger's is hard to handle. But like, what part is hard to handle? We have some kind of complexity explosion. That seems, perhaps, doable to understand. Let's try.</p>
 <p>So the verdict seems to be that we can absolutely simulate singular particles and watch them not-actually-move. As we already sort of got, they don't move around like a sensible planet, but they are everywhere at once &quot;governed&quot; (or perhaps described) by the probability density thingy.<br />
 What then does stuff is something called a <em>quantum wave packet</em>, which I don't understand. Can we simply get a visualization? Gemini tells me we can model an &quot;1D quantum wave packet trapped in a box&quot;</p>
-<pre><code class="language-thea">Simulate a 1D quantum wave packet trapped in a box. The ultimate goal is to gain an intuition on why Schrödinger's equation is hard to do at scale, but this is just building basics.
-
-Just add the animated visual and the required controls, do not add info boxes or extracted math data.
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/shiny-heron-2/index.html" sandbox="allow-scripts" title="Simulate a 1D quantum wave packet trapped in a box. The ultimate goal is to gain an intuition on why Schrödinger&#x27;s equation is hard to do at scale, but this is just building basics." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Simulate a 1D quantum wave packet trapped in a box. The ultimate goal is to gain an intuition on why Schrödinger&#x27;s equation is hard to do at scale, but this is just building basics.&#10;&#10;Just add the animated visual and the required controls, do not add info boxes or extracted math data.</pre></details></figcaption></figure>
 <p>That's certainly mesmerizing, and it does look annoying to calculate or grasp. However, I don't understand what we see, what the box represents, or why stuff has to move.</p>
 <p>I think we need some more basics here. What's a wave, anyways?</p>
 <p>== Anways, waves</p>
 <p>Ok so a wave is a function that must be move in both time and space. This already surprised me, because I want thinking of pretty pictures of sine waves (which do not usually move over time, apparently owing to the affordance of books, not owing to the mathematical idea). Let's have a sine wave:</p>
-<pre><code class="language-thea">
-Visualize a very simple sine wave, correctly moving over space and time. KISS. Do not add bells and whistles, annotations or extras
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/velvet-crane-1/index.html" sandbox="allow-scripts" title="Visualize a very simple sine wave, correctly moving over space and time. KISS. Do not add bells and whistles, annotations or extras" style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize a very simple sine wave, correctly moving over space and time. KISS. Do not add bells and whistles, annotations or extras</pre></details></figcaption></figure>
 <p>Let's also square it, because that's apparently what we do with the quantum stuff as well:</p>
-<pre><code class="language-thea">
-Visualize a very simple sine wave, correctly moving over space and time. In a different color, show the result of the sine wave squared. KISS. Do not add bells and whistles, annotations or extras
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/frosty-hill-1/index.html" sandbox="allow-scripts" title="Visualize a very simple sine wave, correctly moving over space and time. In a different color, show the result of the sine wave squared. KISS. Do not add bells and whistles, annotations or extras" style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize a very simple sine wave, correctly moving over space and time. In a different color, show the result of the sine wave squared. KISS. Do not add bells and whistles, annotations or extras</pre></details></figcaption></figure>
 <p>Alright. I'd say that looks very same-y, except that we don't have any negative parts anymore, which is nice for probability stuff. So I chose to think about the <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mo>&#x0007C;</mo><mi>&#x003C8;</mi><msup><mo>&#x0007C;</mo><mn>2</mn></msup></mrow></math> thing as that we simply take the magic wiggling of the particle and do a little bit of math-y manipulation so we can apply probability tools.</p>
 <p>This also gives a bit of a point to the box: A wave is infinitely long (we're seeing a random section). If we have an infinitely long probability density function, I think it checks out that this is kind of useless, because it tells us really nothing about where the particle will likely show up when we interact with it (which is apparently the point where you can say that they suddenly are somewhere, I remember having heard this stuff before, very nice).</p>
 <p>Allegedly a sine wave is also sort of what the waving of a particle &quot;trapped&quot; in a 1D box looks like (I'm having a hard time here with what's metaphor and what's real, but I hope this will clear up).</p>
 <p>First, I don't understand how we can have a sine wave (infinite) in a (finite) box.</p>
 <p>As a preliminary to that, it turns out my previous research was too simplified: Waves must move in time, but they don't have to <em>travel</em> they can also <em>vibrate in place</em>.</p>
 <p>It seems a simple way to get one is to get a moving sine wave, get one with an inverted sign so it moves into the opposite direction, crash them together and calculate the overlap (the &quot;superposition&quot;)</p>
-<pre><code class="language-thea">
-Visualize a very simple standing wave, built out of the overlap of two sine waves travelling in different directions, correctly moving over space and time. Use different colors. KISS. Do not add bells and whistles, annotations or extras
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/velvet-eagle-1/index.html" sandbox="allow-scripts" title="Visualize a very simple standing wave, built out of the overlap of two sine waves travelling in different directions, correctly moving over space and time. Use different colors. KISS. Do not add bells and whistles, annotations or extras" style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Visualize a very simple standing wave, built out of the overlap of two sine waves travelling in different directions, correctly moving over space and time. Use different colors. KISS. Do not add bells and whistles, annotations or extras</pre></details></figcaption></figure>
 <p>Very trippy again, but actually useful. We can see our white wave moving, but on the spot. Apparently this is going to be useful.</p>
 <p>Next, we need to understand this box. LLM tells me that the sine wave hits 0 exactly at the box's walls, and that's kind of like a guitar string lifted by your finger and attached at two sides. Somehow I doubt this visual is too helpful but let's try:</p>
-<pre><code class="language-thea">
-Make an interactive visualization of a &quot;guitar string&quot; being fixed to two walls, which the user can lift with a drag and drop gesture. It should accurately-ish oscillate when being let go of.
-Use appropriate libraries, keep state clean, do not add extra stuff beside the main visualizations. 
-
-</code></pre>
+<figure class="viz"><iframe src="../files/thea/stellar-moose-1/index.html" sandbox="allow-scripts" title="Make an interactive visualization of a &quot;guitar string&quot; being fixed to two walls, which the user can lift with a drag and drop gesture. It should accurately-ish oscillate when being let go of." style="height: 160px"></iframe><figcaption><details><summary>spec</summary><pre>Make an interactive visualization of a &quot;guitar string&quot; being fixed to two walls, which the user can lift with a drag and drop gesture. It should accurately-ish oscillate when being let go of.&#10;Use appropriate libraries, keep state clean, do not add extra stuff beside the main visualizations.</pre></details></figcaption></figure>
 <p>I'm not too confident in the accuracy of this &quot;simulation&quot;, but I guess it does show: We can make fancy waves, but at the walls, the waves always hit exactly zero.</p>
 <p>In the particle scenario, this has to with &quot;the math&quot; and the energy part of the equation.<br />
 I don't understand &quot;the energy&quot; yet (and it does apparently multiple things, and it is apparently the eigenvalue).</p>
 <p>And all we really want to know</p>
+<script>addEventListener('message', (e) => { const d = e.data; if (!d || d.source !== 'thea' || d.type !== 'resize' || typeof d.height !== 'number') return; for (const f of document.querySelectorAll('.viz iframe')) if (f.contentWindow === e.source) f.style.height = Math.max(d.height, 40) + 'px'; });</script>
 
 </main>
 </body>
